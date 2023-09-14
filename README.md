@@ -6,12 +6,23 @@ This custom lovelace card is ment to display timers and their countdowns in a ci
 
 This is also my first Lovelace custom card for public, so if you have anything to recommend, please do!
 
+## Installation
+
+### Manually
+1. Download `circular-timer-card.js` as save to your desired destination
+2. Add `circular-timer-card.js` to your Lovelace resources as a Javascript module
+
+### HACS
+This custom card has been submitted to be added to HACS repository, as soon at is will be available, this section will be updated!
+
 ## Screenshots
 
 ![Sample screenshot](/images/screenshot1.png)
 ![Sample screenshot](/images/screenshot2.png)
 
 ## Available options
+
+All following options which support colors can also be used with hexadecimal color identifier with opacity!
 
 | Option | Type | Requirement | Description |
 |---|---|---|---|
@@ -22,7 +33,7 @@ This is also my first Lovelace custom card for public, so if you have anything t
 | color | array of strings | optional | Color array used for filling remaining timer arc units. Array contains only single value, that will be used to fill timer, otherwise linear gradient vill be created |
 | color_state | boolean | optional | If set to `true` it will color remaining time in the middle of card with current state color from gradient |
 | empty_bar_color | string | optional | Color for timer arcs which are inactive, by default they gave opacity of 0, therefore they are not visible |
-| secondary_info_size | string or int | optional | CSS size for secondary info (Friendly name of timer) |
+| secondary_info_size | string or int | optional | CSS size for secondary info (Friendly name of timer). Default: "50%" |
 
 ## Example
 
