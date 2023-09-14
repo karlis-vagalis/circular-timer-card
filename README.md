@@ -30,7 +30,7 @@ All following options which support colors can also be used with hexadecimal col
 | bins | int | optional | Number of bins (arcs). Default: 36 |
 | pad_angle | float | optional | Seperating angle between each individual arc in degrees. Default: 1 |
 | corner_radius | float | optional | Radius for rounded arc corners. Default: 4 |
-| color | array of strings | optional | Color array used for filling remaining timer arc units. Array contains only single value, that will be used to fill timer, otherwise linear gradient vill be created |
+| color | array of strings | optional | Color array used for filling remaining timer arc units. If array contains only single value, that color will be used to fill the whole timer, otherwise linear gradient will be created |
 | color_state | boolean | optional | If set to `true` it will color remaining time in the middle of card with current state color from gradient |
 | empty_bar_color | string | optional | Color for timer arcs which are inactive, by default they gave opacity of 0, therefore they are not visible |
 | secondary_info_size | string or int | optional | CSS size for secondary info (Friendly name of timer). Default: "50%" |
