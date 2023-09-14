@@ -9,6 +9,7 @@ This is also my first Lovelace custom card for public, so if you have anything t
 ## Screenshots
 
 ![Sample screenshot](/images/screenshot1.png)
+![Sample screenshot](/images/screenshot2.png)
 
 ## Available options
 
