@@ -9,7 +9,7 @@ class CircularTimerCard extends LitElement {
     // Defaults
     this._bins = 36;
     this._padAngle = 1;
-    this._cornerRadius = 1;
+    this._cornerRadius = 4;
     this._defaultTimerFill = getComputedStyle(document.documentElement).getPropertyValue('--primary-color');
     this._gradientColors = [this._defaultTimerFill, this._defaultTimerFill];
     this._defaultTimerEmptyFill = "#fdfdfd00";
