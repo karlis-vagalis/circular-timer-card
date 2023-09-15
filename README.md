@@ -23,7 +23,11 @@ Tap action will toggle the timer
 
 ### Hold
 
-Hold action will open more-info dialog for the timer
+Hold (>1 sec) action will open more-info dialog for the timer
+
+### Double-tap
+
+Double tap will cancel (reset) timer
 
 ## Screenshots
 

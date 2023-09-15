@@ -32,6 +32,8 @@ class CircularTimerCard extends LitElement {
     this.addEventListener("mouseup", this._mouseup);
     this.addEventListener("touchend", this._mouseup);
 
+    this.addEventListener("dblclick", this._double_tap);
+
   }
   
   static get properties() {
@@ -198,7 +200,7 @@ class CircularTimerCard extends LitElement {
 
     svg
       .append("g")
-      .attr("transform", "translate(50,65)")
+      .attr("transform", "translate(50,62)")
       .append("text")
       .attr("text-anchor", "middle")
       .attr("dominant-baseline", "central")
@@ -235,10 +237,18 @@ class CircularTimerCard extends LitElement {
   }
 
   _tap(e) {
+
     const stateObj = this.hass.states[this._config.entity];
     const service = stateObj.state === "active" ? "pause" : "start";
-
+  
     this.hass.callService("timer", service, { entity_id: this._config.entity });
+  }
+
+  _double_tap(e) {
+
+    const stateObj = this.hass.states[this._config.entity];
+    this.hass.callService("timer", "cancel", { entity_id: this._config.entity });
+    
   }
 
   _mousedown(e) {
