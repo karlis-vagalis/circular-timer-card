@@ -1,4 +1,5 @@
-import { html, css, LitElement } from "https://unpkg.com/lit?module";
+import { html, svg, css, LitElement } from "https://unpkg.com/lit?module";
+import { repeat } from 'https://unpkg.com/lit/directives/repeat.js?module';
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
 class CircularTimerCard extends LitElement {
@@ -34,6 +35,7 @@ class CircularTimerCard extends LitElement {
 
     this.addEventListener("dblclick", this._double_tap);
 
+    ////
   }
   
   static get properties() {
@@ -63,6 +65,50 @@ class CircularTimerCard extends LitElement {
       }
     };
 
+    if (config.bins) {
+      this._bins = config.bins;
+    }
+    this._seqmentSize = 360 / this._bins;
+
+    if (config.pad_angle) {
+      this._padAngle = config.pad_angle;
+    }
+
+    if (config.corner_radius) {
+      this._cornerRadius = config.corner_radius;
+    }
+
+    if (config.color) {
+      if (config.color.length === 1) {
+        this._gradientColors = [config.color[0], config.color[0]];
+      } else {
+        this._gradientColors = config.color;
+      }
+    }
+
+    if (config.color_state) {
+      this._colorState = config.color_state;
+    }
+
+    if (config.empty_bar_color) {
+      this._defaultTimerEmptyFill = config.empty_bar_color;
+    }
+
+    if (config.secondary_info_size) {
+      this._secondaryInfoSize = config.secondary_info_size;
+    }
+
+    this._colorScale = d3.scaleSequential(d3.interpolateRgbBasis(this._gradientColors));
+    this._arc = d3.arc()
+      .innerRadius(30)
+      .outerRadius(48)
+      .startAngle( (d)  => { return this._toRadians(d.start); })
+      .endAngle( (d)  => { return this._toRadians(d.end); })
+      .cornerRadius(this._cornerRadius)
+      .padAngle(this._toRadians(this._padAngle));
+
+    this._arcData = this._generateArcData();
+
     this._config = config;
   }
 
@@ -72,58 +118,19 @@ class CircularTimerCard extends LitElement {
       return html``;
     }
 
-    const stateObj = this.hass.states[this._config.entity];
-    if (!stateObj) {
+    this._stateObj = this.hass.states[this._config.entity];
+    if (!this._stateObj) {
       return html` <ha-card>Unknown entity: ${this._config.entity}</ha-card> `;
     }
 
-    if (this._config.bins) {
-      this._bins = this._config.bins;
-    }
-
-    if (this._config.pad_angle) {
-      this._padAngle = this._config.pad_angle;
-    }
-
-    if (this._config.corner_radius) {
-      this._cornerRadius = this._config.corner_radius;
-    }
-
-    if (this._config.color) {
-      if (this._config.color.length === 1) {
-        this._gradientColors = [this._config.color[0], this._config.color[0]];
-      } else {
-        this._gradientColors = this._config.color;
-      }
-    }
-
-    if (this._config.color_state) {
-      this._colorState = this._config.color_state;
-    }
-
-    if (this._config.empty_bar_color) {
-      this._defaultTimerEmptyFill = this._config.empty_bar_color;
-    }
-
-    if (this._config.secondary_info_size) {
-      this._secondaryInfoSize = this._config.secondary_info_size;
-    }
-
-    ///////////////////
-
-
-    var colorScale = d3.scaleSequential(d3.interpolateRgbBasis(this._gradientColors));
-
-
-    
-    var a = stateObj.attributes.duration.split(':');
+    var a = this._stateObj.attributes.duration.split(':');
     var d_sec = (+a[0]) * 60 * 60 + (+a[1]) * 60 + (+a[2]);
     var rem_sec;
-    if (stateObj.state == "active") {
-      rem_sec = ((Date.parse(stateObj.attributes.finishes_at) - new Date()) / 1000);
+    if (this._stateObj.state == "active") {
+      rem_sec = ((Date.parse(this._stateObj.attributes.finishes_at) - new Date()) / 1000);
     } else {
-      if (stateObj.state == "paused") {
-        var a1 = stateObj.attributes.remaining.split(':');
+      if (this._stateObj.state == "paused") {
+        var a1 = this._stateObj.attributes.remaining.split(':');
         rem_sec = (+a1[0]) * 60 * 60 + (+a1[1]) * 60 + (+a1[2]);
       } else {
         rem_sec = d_sec;
@@ -132,91 +139,60 @@ class CircularTimerCard extends LitElement {
     var proc = rem_sec / d_sec;
     
 
-
-
-    var data = [];
-    var segmentSize = 360 / this._bins;
-
     var limitBin = Math.floor(this._bins * proc);
+    var colorData = this._generateArcColorData(limitBin);
+    var textColor = this._getTextColor(proc);
+    
+    return html`
+      <ha-card>
+        <svg viewBox="0 0 100 100">
+          <g transform="translate(50,50)" data="test">
+            ${repeat(
+              this._arcData,
+              (d) => d.id,
+              (d, index) => svg`<path class="arc" d=${d.arc} fill=${colorData[index]} />`
+            )}
+          </g>
+          <g transform="translate(50,50)">
+            <text id="countdown" text-anchor="middle" dominant-baseline="central" fill=${textColor}>${this._getTimeString(rem_sec)}</text>
+          </g>
+          <g transform="translate(50,62)">
+            <text id="timer-name" text-anchor="middle" dominant-baseline="central" fill="var(--secondary-text-color)" style="font-size:${this._secondaryInfoSize};">${this._stateObj.attributes.friendly_name}</text>
+          </g>
+        </svg>
+      </ha-card>
+    `;
+  }
 
+  _generateArcData() {
+    var data = [];
     for (var i = 0; i < this._bins; i++){
+      data.push({arc: this._arc({start: i*this._seqmentSize, end: (i+1) * this._seqmentSize}), id: i});
+    }
+    return data;
+  }
 
+  _generateArcColorData(limitBin) {
+    var data = [];
+    for (var i = 0; i < this._bins; i++){
       var color;
-
       if (i < limitBin) {
-        color = colorScale(i/(this._bins-1));
+        color = this._colorScale(i/(this._bins-1));
       } else {
         color = this._defaultTimerEmptyFill;
       }
-
-      data.push({start: i*segmentSize, end: (i+1) * segmentSize, color: color});
+  
+      data.push(color);
     }
+    return data;
+  }
 
-    const arc = d3.arc()
-      .innerRadius(30)
-      .outerRadius(48)
-      .startAngle( (d)  => { return this._toRadians(d.start); })
-      .endAngle( (d)  => { return this._toRadians(d.end); })
-      .cornerRadius(this._cornerRadius)
-      .padAngle(this._toRadians(this._padAngle));
-
-
-
-
-    // Create svg element
-    var svg = d3.create("svg")
-      .attr("viewBox", "0 0 100 100");
-      
-    svg
-      .append("g")
-      .attr("transform", "translate(50,50)")
-
-      .selectAll("g")
-      .data(data)
-      .enter()
-
-      .append("path")
-      .attr("class", "arc")
-      .attr("fill", (d) => d.color)
-      .attr("d", arc);
-    
-    svg
-      .append("g")
-      .attr("transform", "translate(50,50)")
-      .append("text")
-      .attr("text-anchor", "middle")
-      .attr("dominant-baseline", "central")
-      .style("fill", () => {
-        if (this._colorState) {
-          return colorScale(proc);
-        } else {
-          return this._stateColor;
-        }
-        
-      })
-      .style("font-weight", 600)
-      .style("font-size", "85%")
-      .text(this._getTimeString(rem_sec));
-
-    svg
-      .append("g")
-      .attr("transform", "translate(50,62)")
-      .append("text")
-      .attr("text-anchor", "middle")
-      .attr("dominant-baseline", "central")
-      //.style("fill", colorScale(proc))
-      .style("fill", "var(--secondary-text-color)")
-      .style("font-weight", 600)
-      .style("font-size", this._secondaryInfoSize)
-      .style("text-transform", "capitalize")
-      .text(stateObj.attributes.friendly_name);
-    
-
-    return html`
-      <ha-card @click=${this._tapAction}>
-        ${svg.node()}
-      </ha-card>
-    `;
+  _getTextColor(proc) {
+    if (this._colorState) {
+      return this._colorScale(proc);
+    } else {
+      return this._stateColor;
+    }
   }
 
   _toRadians(deg) {
@@ -248,7 +224,7 @@ class CircularTimerCard extends LitElement {
 
     const stateObj = this.hass.states[this._config.entity];
     this.hass.callService("timer", "cancel", { entity_id: this._config.entity });
-    
+
   }
 
   _mousedown(e) {
@@ -275,9 +251,22 @@ class CircularTimerCard extends LitElement {
   }
 
   static get styles() {
+
     return css`
       svg {
         margin: 5px;
+      }
+      path:hover {
+        opacity: 0.85;
+      }
+      #countdown {
+        font-weight: 600;
+        font-size: 85%;
+      }
+      #timer-name {
+        font-weight: 600;
+
+        text-transform: capitalize;
       }
     `;
   }
