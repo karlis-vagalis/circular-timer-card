@@ -15,6 +15,16 @@ This is also my first Lovelace custom card for public, so if you have anything t
 ### HACS
 This custom card has been submitted to be added to HACS repository, as soon at is will be available, this section will be updated!
 
+## Actions
+
+### Tap
+
+Tap action will toggle the timer
+
+## Hold
+
+Hold action will open more-info dialog for the timer
+
 ## Screenshots
 
 ![Sample screenshot](/images/screenshot1.png)
