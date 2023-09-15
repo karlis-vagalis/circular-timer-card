@@ -22,7 +22,7 @@ class CircularTimerCard extends LitElement {
     this._timeUpdater = 1;
     setInterval(() => {this._timeUpdater++;}, 500);
 
-    // Event listener bindings
+    // Event listener bindings (https://developers.home-assistant.io/blog/2023/07/07/action-event-custom-cards/)
 
     this.addEventListener("click", this._tap);
 
