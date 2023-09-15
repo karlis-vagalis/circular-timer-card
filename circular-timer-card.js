@@ -22,11 +22,18 @@ class CircularTimerCard extends LitElement {
     this._timeUpdater = 1;
     setInterval(() => {this._timeUpdater++;}, 500);
 
-    ///////////////////////
+    // Event listener bindings
+
+    this.addEventListener("click", this._tap);
+
+    this._mouseIsDown = false;
+    this.addEventListener("mousedown", this._mousedown);
+    this.addEventListener("touchstart", this._mousedown);
+    this.addEventListener("mouseup", this._mouseup);
+    this.addEventListener("touchend", this._mouseup);
+
   }
   
-  // This will make parts of the card rerender when this.hass or this._config is changed.
-  // this.hass is updated by Home Assistant whenever anything happens in your system.
   static get properties() {
     return {
       _config: {},
@@ -45,12 +52,18 @@ class CircularTimerCard extends LitElement {
       throw new Error("Provided entity is not a timer!");
     }
 
+    // Define the action config
+    this._actionConfig = {
+      entity: config.entity,
+      hold_action: {
+        action: "more-info",
+        start_listening: true,
+      }
+    };
+
     this._config = config;
   }
 
-  // The render() function of a LitElement returns the HTML of your card, and any time one or the
-  // properties defined above are updated, the correct parts of the rendered html are magically
-  // replaced with the new values.  Check https://lit.dev for more info.
   render() {
 
     if (!this.hass || !this._config) {
@@ -117,13 +130,6 @@ class CircularTimerCard extends LitElement {
     var proc = rem_sec / d_sec;
     
 
-
-    
-    
-    
-
-    
-    
 
 
     var data = [];
@@ -228,11 +234,34 @@ class CircularTimerCard extends LitElement {
     return `${hours}:${minutes}:${seconds}`
   }
 
-  _tapAction() {
+  _tap(e) {
     const stateObj = this.hass.states[this._config.entity];
     const service = stateObj.state === "active" ? "pause" : "start";
 
     this.hass.callService("timer", service, { entity_id: this._config.entity });
+  }
+
+  _mousedown(e) {
+
+    this._mouseIsDown = true;
+    setTimeout(() => {
+
+      if(this._mouseIsDown) {
+        var event = new Event("hass-action", {
+          bubbles: true,
+          composed: true,
+        });
+        event.detail = {
+          config: this._actionConfig,
+          action: "hold",
+        };
+        this.dispatchEvent(event);
+      }
+    }, 1000);
+  }
+
+  _mouseup(e) {
+    this._mouseIsDown = false;
   }
 
   static get styles() {
