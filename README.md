@@ -21,7 +21,7 @@ This custom card has been submitted to be added to HACS repository, as soon at i
 
 Tap action will toggle the timer
 
-## Hold
+### Hold
 
 Hold action will open more-info dialog for the timer
 
