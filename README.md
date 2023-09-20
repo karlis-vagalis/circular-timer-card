@@ -31,8 +31,11 @@ Double tap will cancel (reset) timer
 
 ## Screenshots
 
+![Sample screenshot](/images/circular-timer.gif)
 ![Sample screenshot](/images/screenshot1.png)
-![Sample screenshot](/images/screenshot2.png)
+![Sample screenshot](/images/screenshot3.png)
+![Sample screenshot](/images/circular-timer-minimal.gif)
+
 
 ## Available options
 
@@ -48,6 +51,7 @@ All following options which support colors can also be used with hexadecimal col
 | color_state | boolean | optional | If set to `true` it will color remaining time in the middle of card with current state color from gradient |
 | empty_bar_color | string | optional | Color for timer arcs which are inactive, by default they gave opacity of 0, therefore they are not visible |
 | secondary_info_size | string or int | optional | CSS size for secondary info (Friendly name of timer). Default: "50%" |
+| layout | string | optional | Layout mode for the card. Available options are "circle" or "minimal". Minimal layout is supposed to create bar timer similar in style to Mushroom cards. Default: "circle" |
 
 ## Example
 
@@ -59,4 +63,17 @@ color:
   - '#1e7883'
   - '#a9bdbb'
   - '#ee7256'
+```
+
+With minimal layout instead of circle:
+```yaml
+type: custom:circular-timer-card
+entity: timer.minute
+bins: 30
+color:
+  - '#1e7883'
+  - '#a9bdbb'
+  - '#ee7256'
+layout: minimal
+color_state: true
 ```
