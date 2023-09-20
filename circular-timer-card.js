@@ -15,6 +15,7 @@ class CircularTimerCard extends LitElement {
     this._gradientColors = [this._defaultTimerFill, this._defaultTimerFill];
     this._defaultTimerEmptyFill = "#fdfdfd00";
     this._secondaryInfoSize = "50%";
+    this._layout = "circle";
 
     this._colorState = false;
     this._stateColor = getComputedStyle(document.documentElement).getPropertyValue("--primary-text-color");
@@ -65,6 +66,12 @@ class CircularTimerCard extends LitElement {
       }
     };
 
+    if (config.layout) {
+      if (config.layout === "minimal") {
+        this._layout = "minimal";
+      }
+    }
+
     if (config.bins) {
       this._bins = config.bins;
     }
@@ -108,6 +115,7 @@ class CircularTimerCard extends LitElement {
       .padAngle(this._toRadians(this._padAngle));
 
     this._arcData = this._generateArcData();
+    this._barData = this._generateBarData();
 
     this._config = config;
   }
@@ -137,16 +145,42 @@ class CircularTimerCard extends LitElement {
       }
     }
     var proc = rem_sec / d_sec;
-    
 
     var limitBin = Math.floor(this._bins * proc);
     var colorData = this._generateArcColorData(limitBin);
     var textColor = this._getTextColor(proc);
-    
-    return html`
+
+    if (this._layout === "minimal") {
+
+      return html`
+      <ha-card>
+        <div class="header">
+          <div class="icon">
+            <ha-icon icon="${this._stateObj.attributes.icon}" style="${this._colorState ? `color: ${textColor};"` : `""`};"></ha-icon>
+          </div>
+          <div class="info">
+            <span class="primary">${this._stateObj.attributes.friendly_name}</span>
+            <span class="secondary">${true ? this._getTimeString(rem_sec) : `${this._stateObj.state} | ${this._getTimeString(rem_sec)}`}</span>
+          </div>
+        </div>
+        <svg viewBox="0 0 100 10.2">
+          <g transform="translate(0,0)">
+            ${repeat(
+              this._barData,
+              (d) => d.id,
+              (d, index) => svg`<rect x=${d.x} y=${d.y} width=${d.width} height=${d.height} rx="1" fill=${colorData[index]} />`
+            )}
+          </g>
+        </svg>
+      </ha-card>
+    `;
+
+    } else {
+
+      return html`
       <ha-card>
         <svg viewBox="0 0 100 100">
-          <g transform="translate(50,50)" data="test">
+          <g transform="translate(50,50)">
             ${repeat(
               this._arcData,
               (d) => d.id,
@@ -162,6 +196,8 @@ class CircularTimerCard extends LitElement {
         </svg>
       </ha-card>
     `;
+
+    }
   }
 
   _generateArcData() {
@@ -172,12 +208,30 @@ class CircularTimerCard extends LitElement {
     return data;
   }
 
+  _generateBarData() {
+
+    var pad = 1;
+    
+    var width = ((100 + pad ) / this._bins) - pad;
+    var height = 10;
+
+    var data = [];
+    for (var i = 0; i < this._bins; i++){
+
+      var x = i * (width + pad);
+      var y = 0;
+
+      data.push({x: x, y: y, width: width, height: height, id: i});
+    }
+    return data;
+  }
+
   _generateArcColorData(limitBin) {
     var data = [];
     for (var i = 0; i < this._bins; i++){
       var color;
       if (i < limitBin) {
-        color = this._colorScale(i/(this._bins-1));
+        color = this._colorScale( i / (this._bins - 1) );
       } else {
         color = this._defaultTimerEmptyFill;
       }
@@ -253,13 +307,18 @@ class CircularTimerCard extends LitElement {
   static get styles() {
 
     return css`
-      svg {
-        margin: 5px;
+
+      ha-card {
+        padding: 10px;
       }
+
       path:hover {
         opacity: 0.85;
       }
-      #countdown {
+      rect:hover {
+        opacity: 0.85;
+      }
+      #countdown  {
         font-weight: 600;
         font-size: 85%;
       }
@@ -268,8 +327,83 @@ class CircularTimerCard extends LitElement {
 
         text-transform: capitalize;
       }
+      #compact-countdown {
+        font-weight: 600;
+        font-size: 35%;
+      }
+
+
+
+      .header {
+        display: flex;
+        padding: 0px;
+        justify-content: flex-start;
+        cursor: pointer;
+
+        margin-bottom: 10px;
+      }
+
+      ha-icon {
+        color: rgba(189, 189, 189, 1);
+      }
+
+      .info {
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        font-weight: 700;
+
+        min-width: 0;
+      }
+
+      .info span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .primary {
+        color: var(--primary-text-color);
+
+        font-size: 14px;
+      }
+
+      .secondary {
+        color: var(--secondary-text-color);
+
+        font-size: 12px;
+        text-transform: capitalize;
+      }
+
+      .icon {
+
+        width: 42px;
+        height: 42px;
+
+        flex-shrink: 0;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        margin-right: 10px;
+
+
+        background: rgba(34, 34, 34, 0.05);
+        border-radius: 500px;
+
+        
+
+      }
     `;
   }
 }
 
 customElements.define("circular-timer-card", CircularTimerCard);
+
+console.info(
+  `%c circular-timer-card | Version 1.1 `,
+  "color: white; font-weight: bold; background: #FF4F00",
+);
