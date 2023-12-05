@@ -1,6 +1,6 @@
-import { html, svg, css, LitElement } from "https://unpkg.com/lit?module";
-import { repeat } from 'https://unpkg.com/lit/directives/repeat.js?module';
-import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+import { html, svg, css, LitElement } from "https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js";
+import { repeat } from "https://cdn.jsdelivr.net/gh/lit/dist@3.0.0/all/lit-all.min.js";
+import * as d3 from "https://cdn.skypack.dev/d3@7";
 
 class CircularTimerCard extends LitElement {
 
