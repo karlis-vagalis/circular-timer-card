@@ -39,17 +39,25 @@ Double tap will cancel (reset) timer
 
 All following options which support colors can also be used with hexadecimal color identifier with opacity!
 
-| Option | Type | Requirement | Description |
-|---|---|---|---|
-| entity | string | **required** | Timer entity ID |
-| bins | int | optional | Number of bins (arcs). Default: 36 |
-| pad_angle | float | optional | Seperating angle between each individual arc in degrees. Default: 1 |
-| corner_radius | float | optional | Radius for rounded arc corners. Default: 4 |
-| color | array of strings | optional | Color array used for filling remaining timer arc units. If array contains only single value, that color will be used to fill the whole timer, otherwise linear gradient will be created |
-| color_state | boolean | optional | If set to `true` it will color remaining time in the middle of card with current state color from gradient |
-| empty_bar_color | string | optional | Color for timer arcs which are inactive, by default they gave opacity of 0, therefore they are not visible |
-| secondary_info_size | string or int | optional | CSS size for secondary info (Friendly name of timer). Default: "50%" |
-| layout | string | optional | Layout mode for the card. Available options are "circle" or "minimal". Minimal layout is supposed to create bar timer similar in style to Mushroom cards. Default: "circle" |
+| Option | Type | Requirement | Default | Description |
+|---|---|---|---|---|
+| entity | string | **required** | - | Timer entity ID |
+| bins | int | optional | 36 | Number of bins (arcs). |
+| pad_angle | float | optional | 1 | Seperating angle between each individual arc in degrees. |
+| corner_radius | float | optional | 4 | Radius for rounded arc corners. |
+| color | array of strings | optional | | Color array used for filling remaining timer arc units. If array contains only single value, that color will be used to fill the whole timer, otherwise linear gradient will be created. |
+| color_state | boolean | optional | | If set to `true` it will color remaining time in the middle of card with current state color from gradient. |
+| empty_bar_color | string | optional | | Color for timer arcs which are inactive, by default they gave opacity of 0, therefore they are not visible. |
+| secondary_info_size | string or int | optional | 50% for cicle or 80% for minimal | CSS size for secondary info (Friendly name of timer). |
+| layout | string | optional | circle | Layout mode for the card. Available options are "circle" or "minimal". Minimal layout is supposed to create bar timer similar in style to Mushroom cards. |
+| name | string | optional | Entity friendly name | Name to be displayed. Can be a string or "none". |
+| icon | string | optional | Etity Icon | Icon to be displayed in minimal layout. Can be a standard icon (e.g. "mdi:motion-sensor") or "none". |
+| direction | string | optional | countdown | Direction of the timer. Can be "countdown" or "countup". |
+| primary_info | string | optional | name | Primary information to be displayed. Can be a "none", "name" or "timer". |
+| secondary_info | string | optional | timer | Secondary information to be displayed. Can be a "none", "name" or "timer". |
+| tap_action | string | optional | toggle | Action triggered on a single tap. Can be a "none", "toggle", "more_info" or "cancel". |
+| hold_action | string | optional | more_info | Action triggered on holding. Can be a "none", "toggle", "more_info" or "cancel". |
+| double_tap_action | string | optional | cancel | Action triggered on a double tap. Can be a "none", "toggle", "more_info" or "cancel". |
 
 ## Example
 
