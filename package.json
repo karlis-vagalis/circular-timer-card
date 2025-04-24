@@ -1,0 +1,19 @@
+{
+  "name": "circular-timer-card",
+  "version": "0.0.0",
+  "description": "Custom Home Assistant card to display timer countdowns using D3.js",
+  "main": "circular-timer-card.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/karlis-vagalis/circular-timer-card.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/karlis-vagalis/circular-timer-card/issues"
+  },
+  "homepage": "https://github.com/karlis-vagalis/circular-timer-card#readme"
+}
