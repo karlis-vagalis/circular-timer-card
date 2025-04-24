@@ -1,7 +1,22 @@
 {
-    "linter": {
-        "domains": {
-            "solid": "all"
-        }
-    }
+	"$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+	"files": {
+		"includes": [
+			"src/**/*",
+			"package.json",
+			"biome.json",
+			"hacs.json",
+			"*.config.js"
+		]
+	},
+	"linter": {
+		"domains": {
+			"solid": "all"
+		},
+		"rules": {
+			"correctness": {
+				"useImportExtensions": "error"
+			}
+		}
+	}
 }
