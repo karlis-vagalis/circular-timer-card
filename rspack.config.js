@@ -1,16 +1,23 @@
 import { defineConfig } from "@rspack/cli";
 import { rspack } from "@rspack/core";
 
+const mode = process.env.NODE_ENV || "development";
+const prod = mode === "production";
+
+console.log("Production:", prod)
+
 export default defineConfig({
+	mode,
+	devtool: prod ? false : "inline-source-map",
 	entry: {
 		main: "./src/index.js",
 	},
 	resolve: {
 		extensions: [".js", ".jsx"],
 	},
-  output: {
-    filename: 'circular-timer-card.js'
-  },
+	output: {
+		filename: "circular-timer-card.js",
+	},
 	experiments: {
 		css: true,
 	},
@@ -46,13 +53,14 @@ export default defineConfig({
 			},
 		],
 	},
-  plugins: [
-    new rspack.HtmlRspackPlugin({
-			filename: "index.html",
-			minify: false,
-      templateContent: `
+	plugins: [
+		!prod &&
+			new rspack.HtmlRspackPlugin({
+				filename: "index.html",
+				minify: false,
+				templateContent: `
         <circular-timer-card></circular-timer-card>
-      `
-		}),
-  ]
+      `,
+			}),
+	],
 });
