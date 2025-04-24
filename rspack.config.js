@@ -16,7 +16,7 @@ export default defineConfig({
 		extensions: [".js", ".jsx"],
 	},
 	output: {
-		filename: "circular-timer-card.js",
+		filename: "polytime-card.js",
 	},
 	experiments: {
 		css: true,
@@ -59,7 +59,7 @@ export default defineConfig({
 				filename: "index.html",
 				minify: false,
 				templateContent: `
-        <circular-timer-card></circular-timer-card>
+        <polytime-card></polytime-card>
       `,
 			}),
 	],

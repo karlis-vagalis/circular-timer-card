@@ -7,8 +7,8 @@ This custom lovelace card is ment to display timers and their countdowns in a ci
 ## Installation
 
 ### Manually
-1. Download `circular-timer-card.js` as save to your desired destination
-2. Add `circular-timer-card.js` to your Lovelace resources as a Javascript module
+1. Download `polytime-card.js` as save to your desired destination
+2. Add `polytime-card.js` to your Lovelace resources as a Javascript module
 
 ### HACS
 This custom card has been submitted to be added to HACS repository, as soon at is will be available, this section will be updated!
@@ -62,7 +62,7 @@ All following options which support colors can also be used with hexadecimal col
 ## Example
 
 ```yaml
-type: custom:circular-timer-card
+type: custom:polytime-card
 entity: timer.single
 bins: 60
 color:
@@ -73,7 +73,7 @@ color:
 
 With minimal layout instead of circle:
 ```yaml
-type: custom:circular-timer-card
+type: custom:polytime-card
 entity: timer.minute
 bins: 30
 color:
