@@ -6,12 +6,11 @@ export const Card = (props) => {
     const [timer, setTimer] = createSignal();
 
     onMount(() => {
+        console.log(props)
         if (window.hass) {
             console.log(window.hass)
             setTimer(window.hass.states[props.id]);
         }
     })
-
-    console.log(props, hass);
 	return <div>Examples</div>;
 };
