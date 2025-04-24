@@ -1,3 +1,5 @@
+import "./style.css";
+
 export const Card = () => {
-	return <></>;
+	return <div>Examples</div>;
 };

@@ -15,7 +15,14 @@
 		},
 		"rules": {
 			"correctness": {
-				"useImportExtensions": "error"
+				"noUndeclaredVariables": "error",
+				"useImportExtensions": "error",
+				"noUnknownProperty": "off",
+				"noUnusedVariables": "error",
+				"noUnusedImports": "error"
+			},
+			"style": {
+				"noYodaExpression": "error"
 			}
 		}
 	}
