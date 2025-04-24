@@ -1,8 +1,9 @@
 import { onMount, createSignal, createEffect } from "solid-js";
+import { createStore } from "solid-js/store";
 import "./Card.css";
 
 export const Card = (props) => {
-	const [config, setConfig] = createSignal(props.config || {});
+	const [config, setConfig] = createStore({});
     const [entity, setEntity] = createSignal();
 
 	Card.prototype.setConfig = (newConfig) => {
@@ -10,8 +11,8 @@ export const Card = (props) => {
 	};
 
     createEffect(() => {
-        if (Object.hasOwn(config(), 'entity')) {
-            setEntity(config().entity)
+        if (Object.hasOwn(config, 'entity')) {
+            setEntity(config.entity)
         } else {
             setEntity(undefined)
         }
@@ -21,7 +22,6 @@ export const Card = (props) => {
 		console.log(props);
 		if (window.hass) {
 			console.log(window.hass);
-			setTimer(window.hass.states[props.id]);
 		}
 	});
 	return <div>Examples</div>;
