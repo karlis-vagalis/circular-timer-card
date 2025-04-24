@@ -8,6 +8,9 @@ export default defineConfig({
 	resolve: {
 		extensions: [".js", ".jsx"],
 	},
+  output: {
+    filename: 'circular-timer-card.js'
+  },
 	experiments: {
 		css: true,
 	},
