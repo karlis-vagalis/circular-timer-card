@@ -5,7 +5,7 @@
 	"type": "module",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/karlis-vagalis/polytime-card.git"
+		"url": "git+https://github.com/karlis-vagalis/circular-timer-card.git"
 	},
 	"main": "polytime-card.js",
 	"devDependencies": {
@@ -22,10 +22,10 @@
 		"tailwindcss": "^4.1.4"
 	},
 	"bugs": {
-		"url": "https://github.com/karlis-vagalis/polytime-card/issues"
+		"url": "https://github.com/karlis-vagalis/circular-timer-card/issues"
 	},
 	"description": "Custom Home Assistant card to display timer countdowns using D3.js",
-	"homepage": "https://github.com/karlis-vagalis/polytime-card#readme",
+	"homepage": "https://github.com/karlis-vagalis/circular-timer-card#readme",
 	"license": "MIT",
 	"scripts": {
 		"lint": "biome check",
