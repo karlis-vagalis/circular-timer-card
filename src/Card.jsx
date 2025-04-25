@@ -1,21 +1,20 @@
 import { createSignal, createEffect } from "solid-js";
-import "./Card.css";
+import "./Card.css?inline";
 
 export const Card = (props) => {
+	const [entity, setEntity] = createSignal();
 
-    const [entity, setEntity] = createSignal();
+	createEffect(() => {
+		if (!Object.hasOwn(props.config, "entity")) {
+			setEntity(undefined);
+		} else {
+			setEntity(props.config.entity);
+		}
+	});
 
-    createEffect(() => {
-        if (Object.hasOwn(props.config, 'entity')) {
-            setEntity(props.config.entity)
-        } else {
-            setEntity(undefined)
-        }
-    })
+	createEffect(() => {
+		console.log(props.hass.states);
+	});
 
-    createEffect(() => {
-        console.log(props.hass.states)
-    })
-
-	return <div>Entitiy: {entity()}</div>;
+	return <ha-card>Entitiy: {entity()}</ha-card>;
 };

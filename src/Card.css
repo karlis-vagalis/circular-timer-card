@@ -1,1 +1,7 @@
 @import "tailwindcss";
+
+@layer base {
+    ha-card {
+        @apply p-2 bg-amber-300;
+    }
+}
