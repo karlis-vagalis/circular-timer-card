@@ -10,7 +10,7 @@ export default defineConfig({
 	mode,
 	devtool: prod ? false : "inline-source-map",
 	entry: {
-		main: "./src/index.js",
+		main: "./src/index.jsx",
 	},
 	resolve: {
 		extensions: [".js", ".jsx"],
