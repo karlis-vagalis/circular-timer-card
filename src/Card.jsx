@@ -1,25 +1,27 @@
-import { createSignal, createEffect } from "solid-js";
+import { createSignal, createEffect, Show } from "solid-js";
 import style from "./Card.css";
+import { Warning } from "./components/Warning.jsx";
+import { entityExistsAndIsValid } from "./lib.js";
 
 export const Card = (props) => {
-	const [entity, setEntity] = createSignal();
+  const [entity, setEntity] = createSignal();
 
-	createEffect(() => {
-		if (!Object.hasOwn(props.config, "entity")) {
-			setEntity(undefined);
-		} else {
-			setEntity(props.config.entity);
-		}
-	});
+  createEffect(() => {
+    const entityId = props.config?.entity;
+    setEntity(
+      entityExistsAndIsValid(props.config, props.hass) ? entityId : undefined,
+    );
+  });
 
-	createEffect(() => {
-		console.log(props.hass.states);
-	});
-
-	return (
-		<>
-			<style>{style}</style>
-			<ha-card classList={{'bg-red-900' : !entity()}}>Entitiy: {entity()}</ha-card>
-		</>
-	);
+  return (
+    <>
+      <style>{style}</style>
+      <ha-card classList={{ "bg-red-900": !entity() }}>
+        <Show when={!entity()}>
+          <Warning message="Card configuration does not contain 'entity' setting or the provided ID is invalid!" />
+        </Show>
+        Entity: {entity()}
+      </ha-card>
+    </>
+  );
 };
