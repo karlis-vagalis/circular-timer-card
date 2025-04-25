@@ -1,9 +1,33 @@
-import { createSignal, createEffect, Show } from "solid-js";
+import {
+  createSignal,
+  createEffect,
+  mergeProps,
+  Show,
+  Match,
+  Switch,
+} from "solid-js";
 import style from "./Card.css";
 import { Warning } from "./components/Warning.jsx";
-import { entityExistsAndIsValid } from "./lib.js";
+import { entityExistsAndIsValid, getDuration } from "./lib.js";
+import { createStore } from "solid-js/store";
 
 export const Card = (props) => {
+  props = mergeProps(
+    {
+      config: {
+        style: "circle",
+        progress: {
+          count: 1,
+        },
+      },
+    },
+    props,
+  );
+  const [duration, setDuration] = createStore({
+    seconds: 0,
+    minutes: 0,
+    hours: 0,
+  });
   const [entity, setEntity] = createSignal();
 
   createEffect(() => {
@@ -13,6 +37,11 @@ export const Card = (props) => {
     );
   });
 
+  createEffect(() => {
+    const d = getDuration(entity(), props.hass);
+    setDuration(d);
+  });
+
   return (
     <>
       <style>{style}</style>
@@ -20,7 +49,12 @@ export const Card = (props) => {
         <Show when={!entity()}>
           <Warning message="Card configuration does not contain 'entity' setting or the provided ID is invalid!" />
         </Show>
-        Entity: {entity()}
+        <Switch>
+          <Match when={props.config.style === "circle"}></Match>
+        </Switch>
+        <Show when={entity()}>
+          {duration.hours}:{duration.minutes}:{duration.seconds}
+        </Show>
       </ha-card>
     </>
   );
