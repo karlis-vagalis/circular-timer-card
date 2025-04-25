@@ -1,5 +1,5 @@
 import { createSignal, createEffect } from "solid-js";
-import "./Card.css?inline";
+import style from "./Card.css";
 
 export const Card = (props) => {
 	const [entity, setEntity] = createSignal();
@@ -16,5 +16,10 @@ export const Card = (props) => {
 		console.log(props.hass.states);
 	});
 
-	return <ha-card>Entitiy: {entity()}</ha-card>;
+	return (
+		<>
+			<style>{style}</style>
+			<ha-card classList={{'bg-red-900' : !entity()}}>Entitiy: {entity()}</ha-card>
+		</>
+	);
 };

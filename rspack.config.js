@@ -4,7 +4,7 @@ import { rspack } from "@rspack/core";
 const mode = process.env.NODE_ENV || "development";
 const prod = mode === "production";
 
-console.log("Production:", prod)
+console.log("Production:", prod);
 
 export default defineConfig({
 	mode,
@@ -17,9 +17,6 @@ export default defineConfig({
 	},
 	output: {
 		filename: "polytime-card.js",
-	},
-	experiments: {
-		css: true,
 	},
 	module: {
 		rules: [
@@ -38,6 +35,7 @@ export default defineConfig({
 			{
 				test: /\.css$/,
 				use: [
+					"css-loader",
 					{
 						loader: "postcss-loader",
 						options: {
@@ -49,7 +47,7 @@ export default defineConfig({
 						},
 					},
 				],
-				type: "css",
+				type: 'javascript/auto'
 			},
 		],
 	},

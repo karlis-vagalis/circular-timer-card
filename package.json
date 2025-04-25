@@ -15,10 +15,12 @@
 		"@tailwindcss/postcss": "^4.1.4",
 		"babel-loader": "^10.0.0",
 		"babel-preset-solid": "^1.9.5",
+		"css-loader": "^7.1.2",
 		"postcss-loader": "^8.1.1",
 		"solid-element": "^1.9.1",
 		"solid-js": "^1.9.5",
 		"solid-refresh": "^0.7.5",
+		"style-loader": "^4.0.0",
 		"tailwindcss": "^4.1.4"
 	},
 	"bugs": {
@@ -29,7 +31,7 @@
 	"license": "MIT",
 	"scripts": {
 		"lint": "biome check",
-    "dev": "NODE_ENV=development rspack build --watch",
+		"dev": "NODE_ENV=development rspack build --watch",
 		"build": "rspack bundle"
 	},
 	"dependencies": {

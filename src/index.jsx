@@ -7,7 +7,7 @@ import { createStore } from "solid-js/store";
 const name = pkg.name;
 
 class SolidCard extends HTMLElement {
-	
+
 	constructor() {
 		super();
 		this.shadow = this.attachShadow({ mode: "open" });
