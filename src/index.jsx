@@ -5,30 +5,36 @@ import { createStore } from "solid-js/store";
 
 const name = pkg.name;
 
-
-const [config, setConfig] = createStore();
-const [hass, setHass] = createStore()
-
 class SolidCard extends HTMLElement {
-	
 	constructor() {
 		super();
 		this.shadow = this.attachShadow({ mode: "open" });
+
+		const [configStore, setConfigStore] = createStore();
+		this.configStore = configStore
+		this.setConfigStore = setConfigStore
+
+		const [hassStore, setHassStore] = createStore();
+		this.hassStore = hassStore
+		this.setHassStore = setHassStore
 	}
 
 	connectedCallback() {
-		render(
-			() => <Card config={config} hass={hass} />,
-			this.shadow,
-		);
+		this.dispose = render(() => <Card config={this.configStore} hass={this.hassStore} />, this.shadow);
+	}
+
+	disconnectedCallback() {
+		if (this.dispose) {
+			this.dispose();
+		}
 	}
 
 	set hass(hass) {
-		setHass(hass)
+		this.setHassStore(hass);
 	}
 
 	setConfig(config) {
-		setConfig(config)
+		this.setConfigStore(config);
 	}
 }
 

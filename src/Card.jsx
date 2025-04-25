@@ -1,5 +1,4 @@
-import { onMount, createSignal, createEffect } from "solid-js";
-import { createStore } from "solid-js/store";
+import { createSignal, createEffect } from "solid-js";
 import "./Card.css";
 
 export const Card = (props) => {
@@ -12,6 +11,10 @@ export const Card = (props) => {
         } else {
             setEntity(undefined)
         }
+    })
+
+    createEffect(() => {
+        console.log(props.hass.states)
     })
 
 	return <div>Entitiy: {entity()}</div>;
