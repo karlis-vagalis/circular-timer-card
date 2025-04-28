@@ -38,10 +38,10 @@ const secondsTillFinish = (finishesAt) => {
 };
 
 const getProgress = (remainingDuration, totalDuration) => {
-  let total = toSeconds(totalDuration)
-  if (total === 0) total++;
-  return toSeconds(remainingDuration) / total;
-}
+	let total = toSeconds(totalDuration);
+	if (total === 0) total++;
+	return toSeconds(remainingDuration) / total;
+};
 
 export const getRemaining = (entityId, hass) => {
 	const state = hass.states[entityId];
@@ -79,10 +79,10 @@ export const getRemaining = (entityId, hass) => {
 			break;
 	}
 
-  const progress = getProgress(remaining, total)
+	const progress = getProgress(remaining, total);
 
 	return {
-    progress,
-    remaining
-  };
+		progress,
+		duration: remaining,
+	};
 };
