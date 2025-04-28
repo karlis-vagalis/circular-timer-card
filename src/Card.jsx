@@ -8,7 +8,7 @@ import {
 } from "solid-js";
 import style from "./Card.css";
 import { Warning } from "./components/Warning.jsx";
-import { entityExistsAndIsValid, getDuration } from "./lib.js";
+import { entityExistsAndIsValid, getRemaining } from "./lib.js";
 import { createStore } from "solid-js/store";
 
 export const Card = (props) => {
@@ -38,7 +38,7 @@ export const Card = (props) => {
   });
 
   createEffect(() => {
-    const d = getDuration(entity(), props.hass);
+    const d = getRemaining(entity(), props.hass);
     setDuration(d);
   });
 

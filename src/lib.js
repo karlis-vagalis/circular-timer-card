@@ -1,50 +1,88 @@
 export const entityExistsAndIsValid = (config, hass) => {
-  const id = config?.entity;
-  return (
-    Object.hasOwn(config, "entity") &&
-    typeof id === "string" &&
-    id in hass.states
-  );
+	const id = config?.entity;
+	return (
+		Object.hasOwn(config, "entity") &&
+		typeof id === "string" &&
+		id in hass.states
+	);
 };
 
 const getDomain = (entityId) => {
-  return entityId.split(".")[0];
+	return entityId.split(".")[0];
 };
 
-const extractParts = (content) => {
-  return content.split(":");
+const parseDuration = (content) => {
+	const { hours, minutes, seconds } =
+		/^(?<hours>[0-9]{1,2}):(?<minutes>[0-9]{1,2}):(?<seconds>[0-9]{1,2})$/gm.exec(
+			content,
+		).groups;
+	return {
+		hours: parseInt(hours),
+		minutes: parseInt(minutes),
+		seconds: parseInt(seconds),
+	};
 };
 
-export const getDuration = (entityId, hass) => {
-  const state = hass.states[entityId];
-  const domain = getDomain(entityId);
+const toSeconds = (duration) => {
+	return duration.seconds + duration.minutes * 60 + duration.hours * 60 * 60;
+};
 
-  console.log(domain, state);
+const toDuration = (seconds) => {
+	return parseDuration(
+		new Date(seconds * 1000).toISOString().substring(11, 16),
+	);
+};
 
-  let seconds = 0;
-  let minutes = 0;
-  let hours = 0;
+const secondsTillFinish = (finishesAt) => {
+	return (Date.parse(finishesAt) - new Date()) / 1000;
+};
 
-  switch (domain) {
-    case "timer":
-      const parts = extractParts(state.attributes.duration);
-      switch (state.state) {
-        case "active":
-          break;
-        case "paused":
-          break;
-        case "idle":
-          hours = parts[0];
-          minutes = parts[1];
-          seconds = parts[2];
-          break;
-      }
-      break;
-  }
+const getProgress = (remainingDuration, totalDuration) => {
+  let total = toSeconds(totalDuration)
+  if (total === 0) total++;
+  return toSeconds(remainingDuration) / total;
+}
 
-  return {
-    seconds,
-    minutes,
-    hours,
+export const getRemaining = (entityId, hass) => {
+	const state = hass.states[entityId];
+	const domain = getDomain(entityId);
+
+	console.log(domain, state);
+
+	let remaining = {
+		hours: 0,
+		minutes: 0,
+		seconds: 0,
+	};
+	let total = {
+		hours: 0,
+		minutes: 0,
+		seconds: 0,
+	};
+
+	switch (domain) {
+		case "timer":
+			total = parseDuration(state.attributes.duration);
+			switch (state.state) {
+				case "active":
+					remaining = toDuration(
+						secondsTillFinish(state.attributes.finishes_at),
+					);
+					break;
+				case "paused":
+					remaining = parseDuration(state.attributes.remaining);
+					break;
+				case "idle":
+					remaining = total;
+					break;
+			}
+			break;
+	}
+
+  const progress = getProgress(remaining, total)
+
+	return {
+    progress,
+    remaining
   };
 };
