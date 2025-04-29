@@ -44,10 +44,26 @@ export const Card = (props) => {
     setRemaining(getRemaining(entity(), props.hass));
   });
 
+  const handleClick = () => {
+    props.hass.callService(
+      "timer",
+      props.hass.states[entity()].state === "active" ? "pause" : "start",
+      { entity_id: entity() },
+    );
+  };
+
   return (
     <>
       <style>{style}</style>
-      <ha-card classList={{ "bg-red-900": !entity() }}>
+      <ha-card
+        onClick={(e) => {
+          handleClick(e);
+        }}
+        onKeyDown={(e) => {
+          handleClick(e);
+        }}
+        classList={{ "bg-red-900": !entity() }}
+      >
         <Show when={!entity()}>
           <Warning message="Card configuration does not contain 'entity' setting or the provided ID is invalid!" />
         </Show>
