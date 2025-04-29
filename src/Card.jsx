@@ -11,6 +11,7 @@ import { Warning } from "./components/Warning.jsx";
 import { entityExistsAndIsValid, getRemaining } from "./lib.js";
 import { createStore } from "solid-js/store";
 import { DurationString } from "./components/DurationString.jsx";
+import { ProgressBar } from "./components/ProgressBar.jsx";
 
 export const Card = (props) => {
   props = mergeProps(
@@ -73,6 +74,7 @@ export const Card = (props) => {
         </Switch>
         <Show when={entity()}>
           <DurationString duration={remaining.duration} />
+          <ProgressBar />
         </Show>
       </ha-card>
     </>

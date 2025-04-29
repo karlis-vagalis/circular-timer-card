@@ -47,6 +47,8 @@ const pad = (number) => {
   return String(number).padStart(2, "0");
 };
 
+export const toRadians = (degrees) => degrees * (Math.PI / 180);
+
 export const formatDuration = (duration) => {
   return `${pad(duration.hours)}:${pad(duration.minutes)}:${pad(duration.seconds)}`;
 };
