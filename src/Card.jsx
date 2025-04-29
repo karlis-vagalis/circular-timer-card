@@ -8,8 +8,9 @@ import {
 } from "solid-js";
 import style from "./Card.css";
 import { Warning } from "./components/Warning.jsx";
-import { entityExistsAndIsValid, getRemaining, formatDuration } from "./lib.js";
+import { entityExistsAndIsValid, getRemaining } from "./lib.js";
 import { createStore } from "solid-js/store";
+import { DurationString } from "./components/DurationString.jsx";
 
 export const Card = (props) => {
   props = mergeProps(
@@ -70,7 +71,9 @@ export const Card = (props) => {
         <Switch>
           <Match when={props.config.style === "circle"}></Match>
         </Switch>
-        <Show when={entity()}>{formatDuration(remaining.duration)}</Show>
+        <Show when={entity()}>
+          <DurationString duration={remaining.duration} />
+        </Show>
       </ha-card>
     </>
   );
