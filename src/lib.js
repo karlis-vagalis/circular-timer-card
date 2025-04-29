@@ -57,7 +57,7 @@ export const getRemaining = (entityId, hass) => {
   const state = hass.states[entityId];
   const domain = getDomain(entityId);
 
-  console.log(domain, state);
+  //console.log(domain, state);
 
   let remaining = {
     hours: 0,
