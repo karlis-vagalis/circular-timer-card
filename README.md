@@ -2,13 +2,14 @@
 
 ## Description
 
-This custom lovelace card is ment to display timers and their countdowns in a circular arc plot using D3.js. Unfortunately, the required D3.js and Lit modules are all imported via CDN, which is not optimal from performance point of view.
+This custom lovelace card is ment to display timers and their countdowns in a circular arc plot using D3.js.
 
 ## Installation
 
 ### Manually
-1. Download `circular-timer-card.js` as save to your desired destination
-2. Add `circular-timer-card.js` to your Lovelace resources as a Javascript module
+1. Run `npm install` and `npx rollup -c` to merge source file with libs
+2. Download `circular-timer-card.js` as save to your desired destination
+3. Add `circular-timer-card.js` to your Lovelace resources as a Javascript module
 
 ### HACS
 This custom card has been submitted to be added to HACS repository, as soon at is will be available, this section will be updated!
