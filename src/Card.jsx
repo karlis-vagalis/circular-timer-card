@@ -29,6 +29,7 @@ export const Card = (props) => {
       tap_action: "toggle",
       hold_action: "more_info",
       double_tap_action: "cancel",
+      show_timer_controls: true, // Added show_timer_controls default
       // secondary_info_size is handled by a memo
       // color is handled by ProgressBar's defaults or direct use
       progress: {},
@@ -265,15 +266,15 @@ export const Card = (props) => {
                 <MinimalProgressBar progress={remaining.progress} config={props.config} hass={props.hass} />
               </Match>
             </Switch>
-          {/* Timer Controls - Placed outside card-content to avoid click propagation issues if any */}
-          {/* If TimerControls should NOT trigger card actions, it needs to stop event propagation */}
-          <TimerControls 
-            hass={props.hass} 
-            entity={entity()} 
-            isRunning={isRunning()}
-            onPointerDown={(e) => e.stopPropagation()} // Prevent card actions when controls are used
-            onClick={(e) => e.stopPropagation()} // Also for click
-          />
+          
+          {/* Timer Controls Integration */}
+          <Show when={entity() && props.config.show_timer_controls}>
+            <TimerControls
+              entity={displayEntity()} // Pass the full entity state object
+              hass={props.hass}
+              // Event propagation is handled within TimerControls.jsx
+            />
+          </Show>
         </Show>
       </ha-card>
     </>
