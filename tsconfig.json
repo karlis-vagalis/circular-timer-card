@@ -4,13 +4,12 @@
     "target": "ESNext",
     "module": "ESNext",
     "moduleResolution": "bundler",
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
     "jsx": "preserve",
     "jsxImportSource": "solid-js",
     "noEmit": true,
     "isolatedModules": true,
     "allowImportingTsExtensions": true,
+    "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true
   }
 }
