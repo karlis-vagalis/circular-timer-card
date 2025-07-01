@@ -63,12 +63,12 @@ export const getRemaining = (entityId: string, hass) => {
 
   //console.log(domain, state);
 
-  let remaining = {
+  let remaining: Duration = {
     hours: 0,
     minutes: 0,
     seconds: 0,
   };
-  let total = {
+  let total: Duration = {
     hours: 0,
     minutes: 0,
     seconds: 0,

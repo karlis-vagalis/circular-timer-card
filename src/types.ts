@@ -1,11 +1,11 @@
 type Layout = "circle" | "minimal";
 type ProgressDirection = "countup" | "countdown";
 
-interface Actions {
+type Actions = {
   tap: string;
   hold: string;
   double_tap: string;
-}
+};
 
 interface Style {
   corner_radius: number;
@@ -15,13 +15,13 @@ interface Style {
 }
 
 export type Config = {
-  entity: string;
+  entity?: string;
   layout: Layout;
   info: {
     primary: string;
     secondary: string;
   };
-  icon: string;
+  icon: string | undefined;
   progress: {
     count: number; // bins
     direction: ProgressDirection;

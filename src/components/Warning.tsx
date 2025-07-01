@@ -1,3 +1,3 @@
-export const Warning = (props) => {
-  return <div>{props.message}</div>;
+export const Warning = (props: { message: string }) => {
+	return <div>{props.message}</div>;
 };

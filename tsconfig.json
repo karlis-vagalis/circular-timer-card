@@ -10,6 +10,7 @@
     "jsxImportSource": "solid-js",
     "noEmit": true,
     "isolatedModules": true,
-    "allowImportingTsExtensions": true
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true
   }
 }

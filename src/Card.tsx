@@ -7,23 +7,41 @@ import {
 	Switch,
 } from "solid-js";
 import style from "./Card.css";
-import { Warning } from "./components/Warning";
+import { Warning } from "./components/Warning.tsx";
 import { entityExistsAndIsValid, getRemaining } from "./lib.ts";
 import { createStore } from "solid-js/store";
 import { DurationString } from "./components/DurationString.tsx";
 import { ProgressBar } from "./components/ProgressBar.tsx";
 import { Config } from "./types.ts";
 
-export const Card = (props: { config: Config }) => {
+const defaultConfig: Config = {
+  layout: "circle",
+  progress: {
+    direction: "countdown",
+    count: 36
+  },
+  info: {
+    primary: "",
+    secondary: ""
+  },
+  icon: "",
+  style: {
+    corner_radius: 0,
+    padding: 0,
+    color: "",
+    empty_color: ""
+  },
+  actions: {
+    tap: "",
+    hold: "",
+    double_tap: ""
+  }
+};
+
+export const Card = (props: { config: Config; hass: any }) => {
 	props = mergeProps(
 		{
-			config: {
-				style: "circle",
-				progress: {
-					count: 1,
-				},
-				tap_action: "toggle",
-			},
+			config: defaultConfig,
 		},
 		props,
 	);
@@ -35,10 +53,10 @@ export const Card = (props: { config: Config }) => {
 			hours: 0,
 		},
 	});
-	const [entity, setEntity] = createSignal();
+	const [entity, setEntity] = createSignal<string | undefined>();
 
 	createEffect(() => {
-		const entityId = props.config?.entity;
+		const entityId = props.config.entity;
 		setEntity(
 			entityExistsAndIsValid(props.config, props.hass) ? entityId : undefined,
 		);
@@ -72,7 +90,7 @@ export const Card = (props: { config: Config }) => {
 					<Warning message="Card configuration does not contain 'entity' setting or the provided ID is invalid!" />
 				</Show>
 				<Switch>
-					<Match when={props.config.style === "circle"}></Match>
+					<Match when={props.config.layout === "circle"}></Match>
 				</Switch>
 				<Show when={entity()}>
 					<DurationString duration={remaining.duration} />

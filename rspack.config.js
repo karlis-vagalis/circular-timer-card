@@ -8,7 +8,7 @@ console.log("Production:", prod);
 
 export default defineConfig({
   mode,
-  devtool: prod ? false : "inline-source-map",
+  devtool: prod ? 'inline-source-map' : "inline-source-map",
   entry: {
     main: "./src/index.tsx",
   },
