@@ -38,7 +38,7 @@ export default defineConfig({
         type: "javascript/auto",
       },
       {
-          test: /\.[t|j]sx$/,
+          test: /\.([t|j]sx|[t|j]s)$/,
           use: [
             {
               loader: 'babel-loader',

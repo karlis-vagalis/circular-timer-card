@@ -8,16 +8,30 @@ interface Actions {
 }
 
 interface Style {
-    corner_radius: number
+  corner_radius: number;
+  padding: number;
+  color: string | string[];
+  empty_color: string;
 }
 
 export type Config = {
   entity: string;
   layout: Layout;
+  info: {
+    primary: string;
+    secondary: string;
+  };
+  icon: string;
   progress: {
-    count: number;
+    count: number; // bins
     direction: ProgressDirection;
   };
   style: Style;
   actions: Actions;
+};
+
+export type Duration = {
+  seconds: number;
+  minutes: number;
+  hours: number;
 };

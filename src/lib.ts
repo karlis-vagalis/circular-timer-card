@@ -1,4 +1,6 @@
-export const entityExistsAndIsValid = (config, hass) => {
+import { Config, Duration } from "./types.ts";
+
+export const entityExistsAndIsValid = (config: Config, hass) => {
   const id = config?.entity;
   return (
     Object.hasOwn(config, "entity") &&
@@ -7,14 +9,14 @@ export const entityExistsAndIsValid = (config, hass) => {
   );
 };
 
-const getDomain = (entityId) => {
+const getDomain = (entityId: string) => {
   return entityId.split(".")[0];
 };
 
-const parseDuration = (content) => {
+const parseDuration = (content: string): Duration => {
   const { hours, minutes, seconds } =
     /^(?<hours>[0-9]{1,2}):(?<minutes>[0-9]{1,2}):(?<seconds>[0-9]{1,2})$/gm.exec(
-      content,
+      content
     ).groups;
   return {
     hours: parseInt(hours),
@@ -23,37 +25,39 @@ const parseDuration = (content) => {
   };
 };
 
-const toSeconds = (duration) => {
+const toSeconds = (duration: Duration) => {
   return duration.seconds + duration.minutes * 60 + duration.hours * 60 * 60;
 };
 
-const toDuration = (seconds) => {
+const toDuration = (seconds: number) => {
   return parseDuration(
-    new Date(seconds * 1000).toISOString().substring(11, 19),
+    new Date(seconds * 1000).toISOString().substring(11, 19)
   );
 };
 
-const secondsTillFinish = (finishesAt) => {
+const secondsTillFinish = (finishesAt: string) => {
   return (Date.parse(finishesAt) - new Date()) / 1000;
 };
 
-const getProgress = (remainingDuration, totalDuration) => {
+const getProgress = (remainingDuration: Duration, totalDuration: Duration) => {
   let total = toSeconds(totalDuration);
   if (total === 0) total++;
   return toSeconds(remainingDuration) / total;
 };
 
-const pad = (number) => {
+const pad = (number: number) => {
   return String(number).padStart(2, "0");
 };
 
-export const toRadians = (degrees) => degrees * (Math.PI / 180);
+export const toRadians = (degrees: number) => degrees * (Math.PI / 180);
 
-export const formatDuration = (duration) => {
-  return `${pad(duration.hours)}:${pad(duration.minutes)}:${pad(duration.seconds)}`;
+export const formatDuration = (duration: Duration) => {
+  return `${pad(duration.hours)}:${pad(duration.minutes)}:${pad(
+    duration.seconds
+  )}`;
 };
 
-export const getRemaining = (entityId, hass) => {
+export const getRemaining = (entityId: string, hass) => {
   const state = hass.states[entityId];
   const domain = getDomain(entityId);
 
@@ -76,7 +80,7 @@ export const getRemaining = (entityId, hass) => {
       switch (state.state) {
         case "active":
           remaining = toDuration(
-            secondsTillFinish(state.attributes.finishes_at),
+            secondsTillFinish(state.attributes.finishes_at)
           );
           break;
         case "paused":
