@@ -18,6 +18,7 @@ export default defineConfig({
   output: {
     filename: "polytime-card.js",
   },
+  stats: "normal",
   module: {
     rules: [
       {
