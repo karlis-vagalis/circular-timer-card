@@ -1,64 +1,64 @@
-import pkg from "../package.json";
-import hacs from "../hacs.json";
-import { Card } from "./Card.tsx";
-import { render } from "solid-js/web";
 import { createStore } from "solid-js/store";
+import { render } from "solid-js/web";
+import hacs from "../hacs.json";
+import pkg from "../package.json";
+import { Card } from "./Card.tsx";
 
 const name = pkg.name;
 
 class SolidCard extends HTMLElement {
-  constructor() {
-    super();
-    this.shadow = this.attachShadow({ mode: "open" });
+	constructor() {
+		super();
+		this.shadow = this.attachShadow({ mode: "open" });
 
-    const [configStore, setConfigStore] = createStore();
-    this.configStore = configStore;
-    this.setConfigStore = setConfigStore;
+		const [configStore, setConfigStore] = createStore();
+		this.configStore = configStore;
+		this.setConfigStore = setConfigStore;
 
-    const [hassStore, setHassStore] = createStore();
-    this.hassStore = hassStore;
-    this.setHassStore = setHassStore;
-  }
+		const [hassStore, setHassStore] = createStore();
+		this.hassStore = hassStore;
+		this.setHassStore = setHassStore;
+	}
 
-  connectedCallback() {
-    this.dispose = render(
-      () => <Card config={this.configStore} hass={this.hassStore} />,
-      this.shadow,
-    );
-  }
+	connectedCallback() {
+		this.dispose = render(
+			() => <Card config={this.configStore} hass={this.hassStore} />,
+			this.shadow,
+		);
+	}
 
-  disconnectedCallback() {
-    if (this.dispose) {
-      this.dispose();
-    }
-  }
+	disconnectedCallback() {
+		if (this.dispose) {
+			this.dispose();
+		}
+	}
 
-  set hass(hass) {
-    this.setHassStore(hass);
-  }
+	set hass(hass) {
+		this.setHassStore(hass);
+	}
 
-  setConfig(config) {
-    this.setConfigStore(config);
-  }
+	setConfig(config) {
+		this.setConfigStore(config);
+	}
 }
 
 // Register custom element
 if (!customElements.get(name)) {
-  customElements.define(name, SolidCard);
+	customElements.define(name, SolidCard);
 }
 
 // Expose custom card for HA
 window.customCards = window.customCards || [];
 window.customCards.push({
-  type: name,
-  name: hacs.name,
-  preview: true,
-  description: pkg.description,
-  documentationURL: pkg.homepage,
+	type: name,
+	name: hacs.name,
+	preview: true,
+	description: pkg.description,
+	documentationURL: pkg.homepage,
 });
 
 // Log custom component information to the console
 console.info(
-  `%c ${name} | Version ${pkg.version} `,
-  "color: white; font-weight: bold; background: #FF4F00",
+	`%c ${name} | Version ${pkg.version} `,
+	"color: white; font-weight: bold; background: #FF4F00",
 );

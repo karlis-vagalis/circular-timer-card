@@ -36,7 +36,12 @@ export default defineConfig({
       {
         test: /\.css$/,
         use: [
-          "css-loader",
+          {
+            loader: "css-loader",
+            options: {
+              exportType: "string",
+            },
+          },
           {
             loader: "postcss-loader",
             options: {

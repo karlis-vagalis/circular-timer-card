@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @layer base {
-    ha-card {
-        @apply p-2;
-    }
+	ha-card {
+		@apply p-2;
+	}
 }

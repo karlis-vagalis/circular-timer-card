@@ -15,13 +15,13 @@ export const ProgressBar = () => {
 		width: number;
 		height: number;
 	}[] => {
-		let width = (100 + pad) / bins - pad;
-		let height = 10;
+		const width = (100 + pad) / bins - pad;
+		const height = 10;
 
 		var data = [];
 		for (let i = 0; i < bins; i++) {
-			let x = i * (width + pad);
-			let y = 0;
+			const x = i * (width + pad);
+			const y = 0;
 
 			data.push({ x: x, y: y, width: width, height: height, id: i });
 		}

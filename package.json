@@ -31,7 +31,7 @@
 	"homepage": "https://github.com/karlis-vagalis/circular-timer-card#readme",
 	"license": "MIT",
 	"scripts": {
-		"lint": "biome check",
+		"lint": "biome check --write",
 		"dev": "NODE_ENV=development rspack build --watch",
 		"build": "rspack bundle"
 	},

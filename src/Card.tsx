@@ -1,41 +1,41 @@
 import {
-	createSignal,
 	createEffect,
+	createSignal,
+	Match,
 	mergeProps,
 	Show,
-	Match,
 	Switch,
 } from "solid-js";
-import style from "./Card.css";
-import { Warning } from "./components/Warning.tsx";
-import { entityExistsAndIsValid, getRemaining } from "./lib.ts";
 import { createStore } from "solid-js/store";
+import style from "./Card.css";
 import { DurationString } from "./components/DurationString.tsx";
 import { ProgressBar } from "./components/ProgressBar.tsx";
-import { Config } from "./types.ts";
+import { Warning } from "./components/Warning.tsx";
+import { entityExistsAndIsValid, getRemaining } from "./lib.ts";
+import type { Config } from "./types.ts";
 
 const defaultConfig: Config = {
-  layout: "circle",
-  progress: {
-    direction: "countdown",
-    count: 36
-  },
-  info: {
-    primary: "",
-    secondary: ""
-  },
-  icon: "",
-  style: {
-    corner_radius: 0,
-    padding: 0,
-    color: "",
-    empty_color: ""
-  },
-  actions: {
-    tap: "",
-    hold: "",
-    double_tap: ""
-  }
+	layout: "circle",
+	progress: {
+		direction: "countdown",
+		count: 36,
+	},
+	info: {
+		primary: "",
+		secondary: "",
+	},
+	icon: "",
+	style: {
+		corner_radius: 0,
+		padding: 0,
+		color: "",
+		empty_color: "",
+	},
+	actions: {
+		tap: "",
+		hold: "",
+		double_tap: "",
+	},
 };
 
 export const Card = (props: { config: Config; hass: any }) => {
