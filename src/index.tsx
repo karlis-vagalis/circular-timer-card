@@ -1,6 +1,6 @@
 import pkg from "../package.json";
 import hacs from "../hacs.json";
-import { Card } from "./Card.jsx";
+import { Card } from "./Card.tsx";
 import { render } from "solid-js/web";
 import { createStore } from "solid-js/store";
 
