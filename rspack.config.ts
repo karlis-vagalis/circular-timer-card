@@ -20,7 +20,19 @@ export default defineConfig({
   },
   module: {
     rules: [
-		{
+      {
+        test: /\.([t|j]sx|[t|j]s)$/,
+        use: [
+          {
+            loader: "babel-loader",
+            options: {
+              presets: ["@babel/preset-typescript", "solid"],
+              plugins: ["solid-refresh/babel"],
+            },
+          },
+        ],
+      },
+      {
         test: /\.css$/,
         use: [
           "css-loader",
@@ -37,23 +49,6 @@ export default defineConfig({
         ],
         type: "javascript/auto",
       },
-      {
-          test: /\.([t|j]sx|[t|j]s)$/,
-          use: [
-            {
-              loader: 'babel-loader',
-              options: {
-                presets: [
-                  '@babel/preset-typescript',
-                  "solid"
-                ],
-                plugins: [
-                  "solid-refresh/babel"
-                ]
-              }
-            }
-          ]
-        }
     ],
   },
   plugins: [
