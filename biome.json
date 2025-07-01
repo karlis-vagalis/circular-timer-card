@@ -6,7 +6,7 @@
 			"package.json",
 			"biome.json",
 			"hacs.json",
-			"*.config.js"
+			"*.config.ts"
 		]
 	},
 	"linter": {

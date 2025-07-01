@@ -7,64 +7,64 @@ const prod = mode === "production";
 console.log("Production:", prod);
 
 export default defineConfig({
-  mode,
-  devtool: prod ? false : "inline-source-map",
-  entry: {
-    main: "./src/index.tsx",
-  },
-  resolve: {
-    extensions: ["...", ".ts", ".tsx", ".jsx"],
-  },
-  output: {
-    filename: "polytime-card.js",
-  },
-  stats: "normal",
-  module: {
-    rules: [
-      {
-        test: /\.([t|j]sx|[t|j]s)$/,
-        use: [
-          {
-            loader: "babel-loader",
-            options: {
-              presets: ["@babel/preset-typescript", "solid"],
-              plugins: ["solid-refresh/babel"],
-            },
-          },
-        ],
-      },
-      {
-        test: /\.css$/,
-        use: [
-          {
-            loader: "css-loader",
-            options: {
-              exportType: "string",
-            },
-          },
-          {
-            loader: "postcss-loader",
-            options: {
-              postcssOptions: {
-                plugins: {
-                  "@tailwindcss/postcss": {},
-                },
-              },
-            },
-          },
-        ],
-        type: "javascript/auto",
-      },
-    ],
-  },
-  plugins: [
-    !prod &&
-      new rspack.HtmlRspackPlugin({
-        filename: "index.html",
-        minify: false,
-        templateContent: `
+	mode,
+	devtool: prod ? false : "inline-source-map",
+	entry: {
+		main: "./src/index.tsx",
+	},
+	resolve: {
+		extensions: ["...", ".ts", ".tsx", ".jsx"],
+	},
+	output: {
+		filename: "polytime-card.js",
+	},
+	stats: "normal",
+	module: {
+		rules: [
+			{
+				test: /\.([t|j]sx|[t|j]s)$/,
+				use: [
+					{
+						loader: "babel-loader",
+						options: {
+							presets: ["@babel/preset-typescript", "solid"],
+							plugins: ["solid-refresh/babel"],
+						},
+					},
+				],
+			},
+			{
+				test: /\.css$/,
+				use: [
+					{
+						loader: "css-loader",
+						options: {
+							exportType: "string",
+						},
+					},
+					{
+						loader: "postcss-loader",
+						options: {
+							postcssOptions: {
+								plugins: {
+									"@tailwindcss/postcss": {},
+								},
+							},
+						},
+					},
+				],
+				type: "javascript/auto",
+			},
+		],
+	},
+	plugins: [
+		!prod &&
+			new rspack.HtmlRspackPlugin({
+				filename: "index.html",
+				minify: false,
+				templateContent: `
         <polytime-card></polytime-card>
       `,
-      }),
-  ],
+			}),
+	],
 });
