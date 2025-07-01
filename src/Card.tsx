@@ -10,6 +10,7 @@ import { createStore } from "solid-js/store";
 import style from "./Card.css";
 import { DurationString } from "./components/DurationString.tsx";
 import { ProgressBar } from "./components/ProgressBar.tsx";
+import { ProgressCircle } from "./components/ProgressCircle.tsx";
 import { Warning } from "./components/Warning.tsx";
 import { entityExistsAndIsValid, getRemaining } from "./lib.ts";
 import type { Config, Duration } from "./types.ts";
@@ -38,13 +39,8 @@ const defaultConfig: Config = {
 	},
 };
 
-export const Card = (props: { config: Config; hass: any }) => {
-	props = mergeProps(
-		{
-			config: defaultConfig,
-		},
-		props,
-	);
+export const Card = (props: Config & { hass: any }) => {
+	props = mergeProps(defaultConfig, props);
 	const [remaining, setRemaining] = createStore<{
 		progress: number;
 		duration: Duration;
@@ -56,25 +52,21 @@ export const Card = (props: { config: Config; hass: any }) => {
 			hours: 0,
 		},
 	});
-	const [entity, setEntity] = createSignal<string | undefined>();
 
 	createEffect(() => {
-		const entityId = props.config.entity;
-		setEntity(
-			entityExistsAndIsValid(props.config, props.hass) ? entityId : undefined,
-		);
-	});
-
-	createEffect(() => {
-		setRemaining(getRemaining(entity(), props.hass));
+		if (props.entity) {
+			setRemaining(getRemaining(props.entity, props.hass));
+		}
 	});
 
 	const handleClick = () => {
-		props.hass.callService(
-			"timer",
-			props.hass.states[entity()].state === "active" ? "pause" : "start",
-			{ entity_id: entity() },
-		);
+		if (props.entity) {
+			props.hass.callService(
+				"timer",
+				props.hass.states[props.entity].state === "active" ? "pause" : "start",
+				{ entity_id: props.entity },
+			);
+		}
 	};
 
 	return (
@@ -92,12 +84,17 @@ export const Card = (props: { config: Config; hass: any }) => {
 				<Show when={!entity()}>
 					<Warning message="Card configuration does not contain 'entity' setting or the provided ID is invalid!" />
 				</Show>
-				<Switch>
-					<Match when={props.config.layout === "circle"}></Match>
-				</Switch>
+
 				<Show when={entity()}>
-					<DurationString duration={remaining.duration} />
-					<ProgressBar />
+					<Switch>
+						<Match when={props.layout === "circle"}>
+							<ProgressCircle config={props.config} />
+						</Match>
+						<Match when={props.layout === "minimal"}>
+							<DurationString duration={remaining.duration} />
+							<ProgressBar />
+						</Match>
+					</Switch>
 				</Show>
 			</ha-card>
 		</>

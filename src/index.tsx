@@ -22,7 +22,7 @@ class SolidCard extends HTMLElement {
 
 	connectedCallback() {
 		this.dispose = render(
-			() => <Card config={this.configStore} hass={this.hassStore} />,
+			() => <Card {...this.configStore} hass={this.hassStore} />,
 			this.shadow,
 		);
 	}

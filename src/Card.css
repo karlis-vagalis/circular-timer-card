@@ -2,6 +2,6 @@
 
 @layer base {
 	ha-card {
-		@apply p-2;
+		@apply p-4;
 	}
 }
