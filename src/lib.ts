@@ -1,6 +1,7 @@
 import type { Config, Duration } from "./types.ts";
 
-export const entityExistsAndIsValid = (entity: string, hass) => {
+export const configIsValid = (config: Config, hass) => {
+	const entity = config.entity;
 	return (
 		typeof entity === "string" &&
 		entity in hass.states

@@ -1,8 +1,10 @@
 import { createStore } from "solid-js/store";
+import { Show } from "solid-js";
 import { render } from "solid-js/web";
 import hacs from "../hacs.json";
 import pkg from "../package.json";
 import { Card } from "./Card.tsx";
+import { configIsValid } from "./lib.ts";
 
 const name = pkg.name;
 
@@ -22,7 +24,11 @@ class SolidCard extends HTMLElement {
 
 	connectedCallback() {
 		this.dispose = render(
-			() => <Card {...this.configStore} hass={this.hassStore} />,
+			() => (
+				<Show when={configIsValid(this.configStore, this.hassStore)} fallback={<div>Config is invalid!</div>}>
+					<Card {...this.configStore} hass={this.hassStore} />
+				</Show>
+			),
 			this.shadow,
 		);
 	}

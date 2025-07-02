@@ -9,13 +9,13 @@ type Actions = {
 
 interface Style {
 	corner_radius: number;
-	padding: number;
+	bin_padding: number;
 	color: string | string[];
 	empty_color: string;
 }
 
 export type Config = {
-	entity?: string;
+	entity: string;
 	layout: Layout;
 	info: {
 		primary: string;

@@ -9,7 +9,7 @@ function getArc(config: Config) {
 		.innerRadius(30)
 		.outerRadius(48)
 		.cornerRadius(config.style.corner_radius)
-		.padAngle(config.style.padding);
+		.padAngle(toRadians(config.style.bin_padding));
 }
 
 function getArcData(config: Config) {
@@ -24,17 +24,15 @@ function getArcData(config: Config) {
 			}),
 		);
 	}
-	console.log(data);
 	return data;
 }
 
-export const ProgressCircle = (props: { config: Config }) => {
+export const ProgressCircle = (props: Config) => {
 	const [arcs, setArcs] = createStore({
 		data: [],
 	});
 	createEffect(() => {
-		console.log(props.config)
-		setArcs(getArcData(props.config));
+		setArcs("data", getArcData(props));
 	});
 	return (
 		<svg viewBox="0 0 100 100">

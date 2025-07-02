@@ -1,9 +1,7 @@
 import {
 	createEffect,
-	createSignal,
 	Match,
 	mergeProps,
-	Show,
 	Switch,
 } from "solid-js";
 import { createStore } from "solid-js/store";
@@ -11,11 +9,10 @@ import style from "./Card.css";
 import { DurationString } from "./components/DurationString.tsx";
 import { ProgressBar } from "./components/ProgressBar.tsx";
 import { ProgressCircle } from "./components/ProgressCircle.tsx";
-import { Warning } from "./components/Warning.tsx";
-import { entityExistsAndIsValid, getRemaining } from "./lib.ts";
+import { getRemaining } from "./lib.ts";
 import type { Config, Duration } from "./types.ts";
 
-const defaultConfig: Config = {
+const defaultConfig: Partial<Config> = {
 	layout: "circle",
 	progress: {
 		direction: "countdown",
@@ -28,7 +25,7 @@ const defaultConfig: Config = {
 	icon: "",
 	style: {
 		corner_radius: 0,
-		padding: 0,
+		bin_padding: 1,
 		color: "",
 		empty_color: "",
 	},
@@ -79,23 +76,16 @@ export const Card = (props: Config & { hass: any }) => {
 				onKeyDown={(e) => {
 					handleClick(e);
 				}}
-				classList={{ "bg-red-900": !entity() }}
 			>
-				<Show when={!entity()}>
-					<Warning message="Card configuration does not contain 'entity' setting or the provided ID is invalid!" />
-				</Show>
-
-				<Show when={entity()}>
-					<Switch>
-						<Match when={props.layout === "circle"}>
-							<ProgressCircle config={props.config} />
-						</Match>
-						<Match when={props.layout === "minimal"}>
-							<DurationString duration={remaining.duration} />
-							<ProgressBar />
-						</Match>
-					</Switch>
-				</Show>
+				<Switch>
+					<Match when={props.layout === "circle"}>
+						<ProgressCircle {...props} />
+					</Match>
+					<Match when={props.layout === "minimal"}>
+						<DurationString duration={remaining.duration} />
+						<ProgressBar />
+					</Match>
+				</Switch>
 			</ha-card>
 		</>
 	);
