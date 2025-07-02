@@ -39,7 +39,7 @@ export const ProgressCircle = (
 	});
 
 	return (
-		<svg viewBox="0 0 100 100">
+		<svg class="m-2 overflow-visible" viewBox="0 0 100 100">
 			<g transform="translate(50,50)">
 				<For each={graph.arcs}>
 					{(arc, i) => (

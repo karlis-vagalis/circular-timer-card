@@ -5,6 +5,6 @@
 		@apply p-4 hover:cursor-pointer;
 	}
 	.bin {
-		@apply hover:opacity-80;
+		@apply hover:opacity-80 hover:scale-105 transition-all;
 	}
 }
