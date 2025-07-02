@@ -14,9 +14,9 @@ function getArc(config: Config) {
 
 function getArcData(config: Config) {
 	let arc = getArc(config);
-	const bins = config.progress.count;
+	const bins = config.progress.bins;
 	let data = [];
-	for (let i = 0; i < config.progress.count; i++) {
+	for (let i = 0; i < config.progress.bins; i++) {
 		data.push(
 			arc({
 				startAngle: toRadians((i * 360) / bins),

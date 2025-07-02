@@ -23,7 +23,7 @@ export type Config = {
 	};
 	icon: string | undefined;
 	progress: {
-		count: number; // bins
+		bins: number; // bins
 		direction: ProgressDirection;
 	};
 	style: Style;

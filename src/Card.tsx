@@ -19,7 +19,7 @@ const defaultConfig: Config = {
 	layout: "circle",
 	progress: {
 		direction: "countdown",
-		count: 36,
+		bins: 36,
 	},
 	info: {
 		primary: "",
