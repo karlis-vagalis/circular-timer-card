@@ -1,9 +1,4 @@
-import {
-	createEffect,
-	Match,
-	mergeProps,
-	Switch,
-} from "solid-js";
+import { createEffect, Match, mergeProps, Switch } from "solid-js";
 import { createStore } from "solid-js/store";
 import style from "./Card.css";
 import { DurationString } from "./components/DurationString.tsx";
@@ -11,6 +6,13 @@ import { ProgressBar } from "./components/ProgressBar.tsx";
 import { ProgressCircle } from "./components/ProgressCircle.tsx";
 import { getRemaining } from "./lib.ts";
 import type { Config, Duration } from "./types.ts";
+
+const primaryTextColor = getComputedStyle(
+	document.documentElement,
+).getPropertyValue("--primary-text-color");
+const primaryColor = getComputedStyle(
+	document.documentElement,
+).getPropertyValue("--primary-color");
 
 const defaultConfig: Partial<Config> = {
 	layout: "circle",
@@ -24,9 +26,9 @@ const defaultConfig: Partial<Config> = {
 	},
 	icon: "",
 	style: {
-		corner_radius: 0,
+		corner_radius: 1,
 		bin_padding: 1,
-		color: "",
+		color: primaryColor,
 		empty_color: "",
 	},
 	actions: {
@@ -38,32 +40,36 @@ const defaultConfig: Partial<Config> = {
 
 export const Card = (props: Config & { hass: any }) => {
 	props = mergeProps(defaultConfig, props);
-	const [remaining, setRemaining] = createStore<{
-		progress: number;
-		duration: Duration;
+
+	const [derived, setDerived] = createStore<{
+		remaining: { progress: number; duration: Duration };
+		colors: string[];
 	}>({
-		progress: 0,
-		duration: {
-			seconds: 0,
-			minutes: 0,
-			hours: 0,
+		colors: [props.primaryColor, props.primaryColor],
+		remaining: {
+			progress: 0,
+			duration: {
+				seconds: 0,
+				minutes: 0,
+				hours: 0,
+			},
 		},
 	});
 
 	createEffect(() => {
-		if (props.entity) {
-			setRemaining(getRemaining(props.entity, props.hass));
-		}
+		setDerived("remaining", getRemaining(props.entity, props.hass));
+	});
+
+	createEffect(() => {
+		setDerived("colors", )
 	});
 
 	const handleClick = () => {
-		if (props.entity) {
-			props.hass.callService(
-				"timer",
-				props.hass.states[props.entity].state === "active" ? "pause" : "start",
-				{ entity_id: props.entity },
-			);
-		}
+		props.hass.callService(
+			"timer",
+			props.hass.states[props.entity].state === "active" ? "pause" : "start",
+			{ entity_id: props.entity },
+		);
 	};
 
 	return (
@@ -82,7 +88,7 @@ export const Card = (props: Config & { hass: any }) => {
 						<ProgressCircle {...props} />
 					</Match>
 					<Match when={props.layout === "minimal"}>
-						<DurationString duration={remaining.duration} />
+						<DurationString duration={derived.remaining.duration} />
 						<ProgressBar />
 					</Match>
 				</Switch>

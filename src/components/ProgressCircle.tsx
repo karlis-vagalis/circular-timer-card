@@ -28,17 +28,17 @@ function getArcData(config: Config) {
 }
 
 export const ProgressCircle = (props: Config) => {
-	const [arcs, setArcs] = createStore({
-		data: [],
+	const [graph, setGraph] = createStore({
+		arcs: [],
 	});
 	createEffect(() => {
-		setArcs("data", getArcData(props));
+		setGraph("arcs", getArcData(props));
 	});
 	return (
 		<svg viewBox="0 0 100 100">
 			<title>Progress Circle</title>
 			<g transform="translate(50,50)">
-				<For each={arcs.data}>
+				<For each={graph.arcs}>
 					{(arc) => <path class="arc" d={arc} fill="yellow" />}
 				</For>
 			</g>

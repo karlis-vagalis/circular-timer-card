@@ -25,8 +25,14 @@ class SolidCard extends HTMLElement {
 	connectedCallback() {
 		this.dispose = render(
 			() => (
-				<Show when={configIsValid(this.configStore, this.hassStore)} fallback={<div>Config is invalid!</div>}>
-					<Card {...this.configStore} hass={this.hassStore} />
+				<Show
+					when={configIsValid(this.configStore, this.hassStore)}
+					fallback={<div>Config is invalid!</div>}
+				>
+					<Card
+						{...this.configStore}
+						hass={this.hassStore}
+					/>
 				</Show>
 			),
 			this.shadow,
