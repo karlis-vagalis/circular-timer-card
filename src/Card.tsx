@@ -1,41 +1,26 @@
-import {
-	createEffect,
-	createMemo,
-	createSignal,
-	Match,
-	mergeProps,
-	Switch,
-} from "solid-js";
+import { createEffect, createMemo, Match, mergeProps, Switch } from "solid-js";
 import { createStore } from "solid-js/store";
 import style from "./Card.css";
 import { DurationString } from "./components/DurationString.tsx";
 import { ProgressBar } from "./components/ProgressBar.tsx";
 import { ProgressCircle } from "./components/ProgressCircle.tsx";
-import { getColorScale, getRemaining, standardizeColor } from "./lib.ts";
+import { getColorScale, getRemaining } from "./lib.ts";
 import type { Config, Duration } from "./types.ts";
-import type { ScaleSequential } from "d3-scale";
 
 const defaultConfig: Partial<Config> = {
 	layout: "circle",
 	direction: "countdown",
 	bins: 36,
-	style: {
-		corner_radius: 1,
-		bin_padding: 1,
-		empty_color: "",
-	},
-	actions: {
-		tap: "",
-		hold: "",
-		double_tap: "",
-	},
+	corner_radius: 1,
+	bin_padding: 1,
+	empty_bin_color: "#fdfdfd00"
 };
 
 export const Card = (props: Config & { hass: any }) => {
 	props = mergeProps(defaultConfig, props);
 
 	const colorScale = createMemo(() => {
-		return getColorScale(props.style.color);
+		return getColorScale(props.color);
 	});
 
 	const [remaining, setRemaining] = createStore<{
@@ -48,6 +33,10 @@ export const Card = (props: Config & { hass: any }) => {
 			minutes: 0,
 			hours: 0,
 		},
+	});
+
+	const limitBin = createMemo(() => {
+		return Math.floor(props.bins * remaining.progress);
 	});
 
 	createEffect(() => {
@@ -75,7 +64,11 @@ export const Card = (props: Config & { hass: any }) => {
 			>
 				<Switch>
 					<Match when={props.layout === "circle"}>
-						<ProgressCircle colorScale={colorScale()} {...props} />
+						<ProgressCircle
+							limitBin={limitBin()}
+							colorScale={colorScale()}
+							{...props}
+						/>
 					</Match>
 					<Match when={props.layout === "minimal"}>
 						<DurationString duration={remaining.duration} />

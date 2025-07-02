@@ -2,6 +2,9 @@
 
 @layer base {
 	ha-card {
-		@apply p-4;
+		@apply p-4 hover:cursor-pointer;
+	}
+	.bin {
+		@apply hover:opacity-80;
 	}
 }

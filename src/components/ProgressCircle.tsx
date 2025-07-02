@@ -1,16 +1,16 @@
+/** biome-ignore-all lint/a11y/noSvgWithoutTitle: <explanation> */
 import { arc } from "d3-shape";
 import { createEffect, For } from "solid-js";
 import { createStore } from "solid-js/store";
 import { toRadians } from "../lib.ts";
 import type { ColorScale, Config } from "../types.ts";
-import { ScaleSequential } from "d3-scale";
 
 function getArc(config: Config) {
 	return arc()
 		.innerRadius(30)
 		.outerRadius(48)
-		.cornerRadius(config.style.corner_radius)
-		.padAngle(toRadians(config.style.bin_padding));
+		.cornerRadius(config.corner_radius)
+		.padAngle(toRadians(config.bin_padding));
 }
 
 function getArcData(config: Config) {
@@ -29,7 +29,7 @@ function getArcData(config: Config) {
 }
 
 export const ProgressCircle = (
-	props: Config & { colorScale: ColorScale },
+	props: Config & { colorScale: ColorScale; limitBin: number },
 ) => {
 	const [graph, setGraph] = createStore({
 		arcs: [],
@@ -40,10 +40,19 @@ export const ProgressCircle = (
 
 	return (
 		<svg viewBox="0 0 100 100">
-			<title>Progress Circle</title>
 			<g transform="translate(50,50)">
 				<For each={graph.arcs}>
-					{(arc, i) => <path class="arc" d={arc} fill={props.colorScale(i() / (props.bins - 1))} />}
+					{(arc, i) => (
+						<path
+							class="bin"
+							d={arc}
+							fill={
+								i() < props.limitBin
+									? props.colorScale(i() / (props.bins - 1))
+									: props.empty_bin_color
+							}
+						/>
+					)}
 				</For>
 			</g>
 		</svg>
