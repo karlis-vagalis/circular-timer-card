@@ -67,6 +67,7 @@ export const Card = (props: Config & { hass: any }) => {
 						<ProgressCircle
 							limitBin={limitBin()}
 							colorScale={colorScale()}
+							duration={remaining.duration}
 							{...props}
 						/>
 					</Match>

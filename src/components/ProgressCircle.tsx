@@ -3,7 +3,8 @@ import { arc } from "d3-shape";
 import { createEffect, For } from "solid-js";
 import { createStore } from "solid-js/store";
 import { toRadians } from "../lib.ts";
-import type { ColorScale, Config } from "../types.ts";
+import type { ColorScale, Config, Duration } from "../types.ts";
+import { DurationString } from "./DurationString.tsx";
 
 function getArc(config: Config) {
 	return arc()
@@ -29,7 +30,7 @@ function getArcData(config: Config) {
 }
 
 export const ProgressCircle = (
-	props: Config & { colorScale: ColorScale; limitBin: number },
+	props: Config & { colorScale: ColorScale; limitBin: number, duration: Duration },
 ) => {
 	const [graph, setGraph] = createStore({
 		arcs: [],
@@ -39,22 +40,28 @@ export const ProgressCircle = (
 	});
 
 	return (
-		<svg class="m-2 overflow-visible" viewBox="0 0 100 100">
-			<g transform="translate(50,50)">
-				<For each={graph.arcs}>
-					{(arc, i) => (
-						<path
-							class="bin"
-							d={arc}
-							fill={
-								i() < props.limitBin
-									? props.colorScale(i() / (props.bins - 1))
-									: props.empty_bin_color
-							}
-						/>
-					)}
-				</For>
-			</g>
-		</svg>
+		<div class="relative">
+			<svg class="m-2 overflow-visible" viewBox="0 0 100 100">
+				<g transform="translate(50,50)">
+					<For each={graph.arcs}>
+						{(arc, i) => (
+							<path
+								class="bin"
+								d={arc}
+								fill={
+									i() < props.limitBin
+										? props.colorScale(i() / (props.bins - 1))
+										: props.empty_bin_color
+								}
+							/>
+						)}
+					</For>
+				</g>
+			</svg>
+			<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-items-center gap-2">
+				<DurationString duration={props.duration} />
+				<div>Secondary</div>
+			</div>
+		</div>
 	);
 };
