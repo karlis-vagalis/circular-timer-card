@@ -1,4 +1,11 @@
-import { createEffect, createMemo, createSignal, Match, mergeProps, Switch } from "solid-js";
+import {
+	createEffect,
+	createMemo,
+	createSignal,
+	Match,
+	mergeProps,
+	Switch,
+} from "solid-js";
 import { createStore } from "solid-js/store";
 import style from "./Card.css";
 import { DurationString } from "./components/DurationString.tsx";
@@ -28,24 +35,23 @@ export const Card = (props: Config & { hass: any }) => {
 	props = mergeProps(defaultConfig, props);
 
 	const colorScale = createMemo(() => {
-		return getColorScale(props.style.color)
-	})
+		return getColorScale(props.style.color);
+	});
 
-	const [derived, setDerived] = createStore<{
-		remaining: { progress: number; duration: Duration };
+	const [remaining, setRemaining] = createStore<{
+		progress: number;
+		duration: Duration;
 	}>({
-		remaining: {
-			progress: 0,
-			duration: {
-				seconds: 0,
-				minutes: 0,
-				hours: 0,
-			},
+		progress: 0,
+		duration: {
+			seconds: 0,
+			minutes: 0,
+			hours: 0,
 		},
 	});
 
 	createEffect(() => {
-		setDerived("remaining", getRemaining(props.entity, props.hass));
+		setRemaining(getRemaining(props.entity, props.hass));
 	});
 
 	const handleClick = () => {
@@ -69,10 +75,10 @@ export const Card = (props: Config & { hass: any }) => {
 			>
 				<Switch>
 					<Match when={props.layout === "circle"}>
-						<ProgressCircle colorScale={colorScale} {...props} />
+						<ProgressCircle colorScale={colorScale()} {...props} />
 					</Match>
 					<Match when={props.layout === "minimal"}>
-						<DurationString duration={derived.remaining.duration} />
+						<DurationString duration={remaining.duration} />
 						<ProgressBar />
 					</Match>
 				</Switch>
