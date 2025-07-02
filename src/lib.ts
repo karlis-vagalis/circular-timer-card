@@ -58,7 +58,7 @@ const toDuration = (seconds: number) => {
   );
 };
 
-const secondsTillFinish = (finishesAt: string) => {
+const secondsTillTimerFinishes = (finishesAt: string) => {
   return (Date.parse(finishesAt) - new Date()) / 1000;
 };
 
@@ -103,7 +103,7 @@ export const getRemaining = (entityId: string, hass) => {
       switch (state.state) {
         case "active":
           remaining = toDuration(
-            secondsTillFinish(state.attributes.finishes_at)
+            secondsTillTimerFinishes(state.attributes.finishes_at)
           );
           break;
         case "paused":

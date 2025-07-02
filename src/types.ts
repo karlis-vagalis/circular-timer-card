@@ -1,7 +1,7 @@
 import type { ScaleSequential } from "d3-scale";
 
-type Layout = "circle" | "minimal";
-type ProgressDirection = "countup" | "countdown";
+export type Layout = "circle" | "minimal";
+export type ProgressDirection = "countup" | "countdown";
 
 type Actions = {
 	tap: string;
