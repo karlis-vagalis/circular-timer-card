@@ -2,7 +2,8 @@ import { arc } from "d3-shape";
 import { createEffect, For } from "solid-js";
 import { createStore } from "solid-js/store";
 import { toRadians } from "../lib.ts";
-import type { Config } from "../types.ts";
+import type { ColorScale, Config } from "../types.ts";
+import { ScaleSequential } from "d3-scale";
 
 function getArc(config: Config) {
 	return arc()
@@ -27,7 +28,11 @@ function getArcData(config: Config) {
 	return data;
 }
 
-export const ProgressCircle = (props: Config) => {
+function getArcColorData() {}
+
+export const ProgressCircle = (
+	props: Config | { colorScale: ColorScale },
+) => {
 	const [graph, setGraph] = createStore({
 		arcs: [],
 	});

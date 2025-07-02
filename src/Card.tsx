@@ -1,34 +1,20 @@
-import { createEffect, Match, mergeProps, Switch } from "solid-js";
+import { createEffect, createMemo, createSignal, Match, mergeProps, Switch } from "solid-js";
 import { createStore } from "solid-js/store";
 import style from "./Card.css";
 import { DurationString } from "./components/DurationString.tsx";
 import { ProgressBar } from "./components/ProgressBar.tsx";
 import { ProgressCircle } from "./components/ProgressCircle.tsx";
-import { getRemaining } from "./lib.ts";
+import { getColorScale, getRemaining, standardizeColor } from "./lib.ts";
 import type { Config, Duration } from "./types.ts";
-
-const primaryTextColor = getComputedStyle(
-	document.documentElement,
-).getPropertyValue("--primary-text-color");
-const primaryColor = getComputedStyle(
-	document.documentElement,
-).getPropertyValue("--primary-color");
+import type { ScaleSequential } from "d3-scale";
 
 const defaultConfig: Partial<Config> = {
 	layout: "circle",
-	progress: {
-		direction: "countdown",
-		bins: 36,
-	},
-	info: {
-		primary: "",
-		secondary: "",
-	},
-	icon: "",
+	direction: "countdown",
+	bins: 36,
 	style: {
 		corner_radius: 1,
 		bin_padding: 1,
-		color: primaryColor,
 		empty_color: "",
 	},
 	actions: {
@@ -41,11 +27,13 @@ const defaultConfig: Partial<Config> = {
 export const Card = (props: Config & { hass: any }) => {
 	props = mergeProps(defaultConfig, props);
 
+	const colorScale = createMemo(() => {
+		return getColorScale(props.style.color)
+	})
+
 	const [derived, setDerived] = createStore<{
 		remaining: { progress: number; duration: Duration };
-		colors: string[];
 	}>({
-		colors: [props.primaryColor, props.primaryColor],
 		remaining: {
 			progress: 0,
 			duration: {
@@ -58,10 +46,6 @@ export const Card = (props: Config & { hass: any }) => {
 
 	createEffect(() => {
 		setDerived("remaining", getRemaining(props.entity, props.hass));
-	});
-
-	createEffect(() => {
-		setDerived("colors", )
 	});
 
 	const handleClick = () => {
@@ -85,7 +69,7 @@ export const Card = (props: Config & { hass: any }) => {
 			>
 				<Switch>
 					<Match when={props.layout === "circle"}>
-						<ProgressCircle {...props} />
+						<ProgressCircle colorScale={colorScale} {...props} />
 					</Match>
 					<Match when={props.layout === "minimal"}>
 						<DurationString duration={derived.remaining.duration} />

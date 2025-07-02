@@ -1,3 +1,5 @@
+import { ScaleSequential } from "d3-scale";
+
 type Layout = "circle" | "minimal";
 type ProgressDirection = "countup" | "countdown";
 
@@ -7,25 +9,23 @@ type Actions = {
 	double_tap: string;
 };
 
-interface Style {
-	corner_radius: number;
+export type Color = string | string[]
+
+export type ColorScale = ScaleSequential<string>
+
+export interface Style {
+	corner_radius?: number;
 	bin_padding: number;
-	color: string | string[];
+	color?: Color;
 	empty_color: string;
 }
 
 export type Config = {
 	entity: string;
 	layout: Layout;
-	info: {
-		primary: string;
-		secondary: string;
-	};
+	direction: ProgressDirection;
+	bins: number;
 	icon: string | undefined;
-	progress: {
-		bins: number; // bins
-		direction: ProgressDirection;
-	};
 	style: Style;
 	actions: Actions;
 };
