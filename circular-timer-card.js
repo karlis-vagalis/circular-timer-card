@@ -58,7 +58,6 @@ class CircularTimerCard extends LitElement {
   }
 
   setConfig(config) {
-
     if (!config.entity) {
       throw new Error("You need to provide entity!");
     }
@@ -380,6 +379,12 @@ class CircularTimerCard extends LitElement {
     };
     this.dispatchEvent(event);
   }
+
+  _reset_and_start_func() {
+    const stateObj = this.hass.states[this._config.entity];
+    this.hass.callService("timer", "cancel", { entity_id: this._config.entity });
+    this.hass.callService("timer", "start", { entity_id: this._config.entity });
+  }
   
   _tap(e) {
     if(this._mouseIsDownTriggered == false) {
@@ -391,6 +396,8 @@ class CircularTimerCard extends LitElement {
             this._moreInfo_func();
           } else if (this._tapAction == "cancel") {
             this._cancel_func();
+          } else if (this.tapAction == "reset_and_start") {
+            this._reset_and_start_func();
           }
         }
       }, 200);
@@ -405,6 +412,8 @@ class CircularTimerCard extends LitElement {
       this._moreInfo_func();
     } else if (this._doubleTapAction == "cancel") {
       this._cancel_func();
+    } else if (this._doubleTapAction == "reset_and_start") {
+      this._reset_and_start_func();
     }
     setTimeout(() => {
       this._doubleClickTriggered = false;
@@ -422,6 +431,8 @@ class CircularTimerCard extends LitElement {
           this._moreInfo_func();
         } else if (this._holdAction == "cancel") {
           this._cancel_func();
+        } else if (this._holdAction == "reset_and_start") {
+          this._reset_and_start_func();
         }
       }
     }, 1000);    
