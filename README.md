@@ -55,9 +55,18 @@ All following options which support colors can also be used with hexadecimal col
 | direction | string | optional | countdown | Direction of the timer. Can be "countdown" or "countup". |
 | primary_info | string | optional | name | Primary information to be displayed. Can be a "none", "name" or "timer". |
 | secondary_info | string | optional | timer | Secondary information to be displayed. Can be a "none", "name" or "timer". |
-| tap_action | string | optional | toggle | Action triggered on a single tap. Can be a "none", "toggle", "more_info" or "cancel". |
-| hold_action | string | optional | more_info | Action triggered on holding. Can be a "none", "toggle", "more_info" or "cancel". |
-| double_tap_action | string | optional | cancel | Action triggered on a double tap. Can be a "none", "toggle", "more_info" or "cancel". |
+| tap_action | string | optional | toggle | Action triggered on a single tap. Can be a "none", "toggle", "reset_and_start", "more_info" or "cancel". |
+| hold_action | string | optional | more_info | Action triggered on holding. Can be a "none", "toggle", "reset_and_start", "more_info" or "cancel". |
+| double_tap_action | string | optional | cancel | Action triggered on a double tap. Can be a "none", "toggle", "reset_and_start", "more_info" or "cancel". |
+
+## Actions
+| Action | What it does | 
+|---|---|
+| none | Nothing |
+| toggle | Start or stops the timer |
+| reset_and_start | Resets the timer to its default value and starts it | 
+| more_info | Displays more info about the timer |
+| cancel | Resets the timer |
 
 ## Example
 
@@ -82,4 +91,16 @@ color:
   - '#ee7256'
 layout: minimal
 color_state: true
+```
+
+Overriding Actions
+```yaml
+type: custom:circular-timer-card
+entity: timer.single
+bins: 60
+color:
+  - '#1e7883'
+  - '#a9bdbb'
+  - '#ee7256'
+double_tap_action: 'reset_and_start'
 ```
