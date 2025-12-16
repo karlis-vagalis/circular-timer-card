@@ -1,8 +1,8 @@
-[![release][github-release]](https://github.com/karlis-vagalis/circular-timer-card/releases/latest)
-![downloads-latest][github-latest-downloads]
-![downloads-total][github-downloads]
-![stars][github-stars]
-[![forum][hass-forum]](https://community.home-assistant.io/t/lovelace-circular-timer-card/614171)
+![GitHub Release](https://img.shields.io/github/v/release/karlis-vagalis/circular-timer-card)
+![downloads-latest](https://img.shields.io/github/downloads/karlis-vagalis/circular-timer-card/latest/total)
+![Downloads](https://img.shields.io/github/downloads/karlis-vagalis/circular-timer-card/total?color=blue&style=flat-square&logo=github)
+
+[Home Assistant Community Forum](https://community.home-assistant.io/t/lovelace-circular-timer-card/614171)
 
 ## Description
 
