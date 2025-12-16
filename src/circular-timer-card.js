@@ -1,6 +1,7 @@
 import * as d3 from "d3";
 import { css, html, LitElement, svg } from "lit";
 import { repeat } from "lit/directives/repeat.js";
+import pkg from "../package.json"
 
 class CircularTimerCard extends LitElement {
 	constructor() {
@@ -562,6 +563,6 @@ class CircularTimerCard extends LitElement {
 customElements.define("circular-timer-card", CircularTimerCard);
 
 console.info(
-	`%c circular-timer-card | Version 1.1 `,
+	`%c circular-timer-card | Version ${pkg.version} `,
 	"color: white; font-weight: bold; background: #FF4F00",
 );
