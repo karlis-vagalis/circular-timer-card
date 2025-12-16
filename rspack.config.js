@@ -1,7 +1,7 @@
 import { defineConfig } from "@rspack/cli";
 
 export default defineConfig({
-    devtool: false,
+	devtool: false,
 	entry: {
 		main: "./src/circular-timer-card.js",
 	},

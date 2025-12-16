@@ -1,7 +1,7 @@
 import * as d3 from "d3";
 import { css, html, LitElement, svg } from "lit";
 import { repeat } from "lit/directives/repeat.js";
-import pkg from "../package.json"
+import pkg from "../package.json";
 
 class CircularTimerCard extends LitElement {
 	constructor() {

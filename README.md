@@ -2,16 +2,21 @@
 
 ## Description
 
-This custom lovelace card is ment to display timers and their countdowns in a circular arc plot using D3.js. Unfortunately, the required D3.js and Lit modules are all imported via CDN, which is not optimal from performance point of view.
+This custom lovelace card is ment to display timer entities and their countdowns in a circular arc plot using D3.js.
 
 ## Installation
 
-### Manually
-1. Download `circular-timer-card.js` as save to your desired destination
-2. Add `circular-timer-card.js` to your Lovelace resources as a Javascript module
-
 ### HACS
-This custom card has been submitted to be added to HACS repository, as soon at is will be available, this section will be updated!
+
+This card is available in [HACS](https://hacs.xyz/) (Home Assistant Community Store).
+
+Use this link to directly go to the repository:
+
+[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=karlis-vagalis&repository=circular-timer-card)
+
+### Manually
+1. Download `circular-timer-card.js` from [latest release](https://github.com/karlis-vagalis/circular-timer-card/releases)
+2. Add `circular-timer-card.js` to your Lovelace resources as a Javascript module
 
 ## Actions
 
