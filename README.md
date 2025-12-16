@@ -1,4 +1,8 @@
-[![hacs_badge](https://img.shields.io/badge/HACS-Default-41BDF5.svg?style=for-the-badge)](https://github.com/hacs/integration)
+[![release][github-release]](https://github.com/karlis-vagalis/circular-timer-card/releases/latest)
+![downloads-latest][github-latest-downloads]
+![downloads-total][github-downloads]
+![stars][github-stars]
+[![forum][hass-forum]](https://community.home-assistant.io/t/lovelace-circular-timer-card/614171)
 
 ## Description
 
