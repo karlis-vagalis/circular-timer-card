@@ -1,0 +1,23 @@
+{
+	"name": "circular-timer-card",
+	"version": "0.0.0",
+	"description": "Circular timer card",
+    "type": "module",
+	"scripts": {
+		"build": "rspack build",
+		"lint": "biome check --write",
+		"format": "biome format --write"
+	},
+	"keywords": ["Home Assistant", "Lovelace", "timer"],
+	"author": "Kārlis Vagalis",
+	"license": "MIT",
+	"devDependencies": {
+		"@biomejs/biome": "2.3.9",
+		"@rspack/cli": "^1.6.7",
+		"@rspack/core": "^1.6.7"
+	},
+	"dependencies": {
+		"d3": "^7.9.0",
+		"lit": "^3.3.1"
+	}
+}
