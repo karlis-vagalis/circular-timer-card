@@ -28,5 +28,3 @@ jobs:
         with:
           files: |
             dist/circular-timer-card.js
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
